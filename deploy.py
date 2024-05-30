@@ -58,7 +58,7 @@ def copy_and_check_js_files():
             
             for js_file in js_files:
                 new_js_include = f'<script src="infinite/{js_file}?v={version_timestamp}"></script>'
-                js_pattern = re.compile(rf'<script src="infinite/{js_file}.*"></script>')
+                js_pattern = re.compile(rf'<script src="infinite/{re.escape(js_file)}.*"></script>')
                 
                 if js_pattern.search(index_content):
                     index_content = js_pattern.sub(new_js_include, index_content)
@@ -79,5 +79,4 @@ def copy_and_check_js_files():
 copy_and_check_js_files()
 
 print(f"JavaScript files copied and versioned with timestamp {version_timestamp}.")
-
     
