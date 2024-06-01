@@ -6,7 +6,15 @@ import re
 
 # Define paths
 source_dir = './infinitegames'  # Replace with the path to your source JS files
-target_dirs = ['/Users/jd/Documents/Github/infinitepong', '/Users/jd/Documents/Github/nachoblaster', '/Users/jd/Documents/Github/nachoblaster3d', '/Users/jd/Documents/Github/infiniteflap']
+target_dirs = ['/Users/jd/Documents/Github/infinitepong', 
+'/Users/jd/Documents/Github/nachoblaster', 
+'/Users/jd/Documents/Github/nachoblaster3d',
+ '/Users/jd/Documents/Github/infiniteflap',
+ '/Users/jd/Documents/Github/infiniteguess',
+ '/Users/jd/Documents/Github/infinitesnake3d/3d',
+ '/Users/jd/Documents/Github/infinitesnake3d/2d',
+ '/Users/jd/Documents/Github/infinitewar'
+  ]
 
 # Get the current version timestamp
 version_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")

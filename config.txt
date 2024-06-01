@@ -2,3 +2,6 @@
 ~/Documents/Github/nachoblaster
 ~/Documents/Github/nachoblaster3d
 ~/Documents/Github/infiniteflap
+~/Documents/Github/infinitesnake
+~/Documents/Github/infinitesnake3d
+~/Documents/Github/infiniteguess
