@@ -147,6 +147,8 @@ function loadUnlocks() {
 
 
 
+
+
 function displayLeaderboard(leaderboard) {
   const leaderboardContainer = document.getElementById('leaderboard');
   leaderboardContainer.innerHTML = '<h2>Leaderboard</h2><ol id="leaderboard-list"></ol>';
