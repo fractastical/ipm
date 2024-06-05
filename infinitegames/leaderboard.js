@@ -39,7 +39,7 @@ function endGameSessionApi(score) {
   return fetch(`${baseUrl}/telegram-game/end-game?gameRequestId=${gameRequestId}&gameSessionId=${gameSessionId}&inMsgId=${inMsgId}&userId=${userId}&score=${score}`, {
     method: 'POST'
   })
-    .then(response => console.log('Success:', data))
+    .then(response => console.log('Success:', response))
     .catch(error => {
       console.error('Error:', error);
     });
@@ -48,10 +48,9 @@ function endGameSessionApi(score) {
 async function fetchLeaderboard() {
 
   const response = await getLeaderboard();
-  console.log(response);
   const leaderboard = await response.json();
+  console.log('leaderboard response:', leaderboard);
   displayLeaderboard(leaderboard);
-
 }
 
 // implement in gameOver  function
@@ -64,16 +63,9 @@ async function getLeaderboard() {
   return fetch(`${baseUrl}/telegram-game/leaderboard?userId=${a.get('userId')}`, {
     method: 'GET'
   })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success leaderboard fetch:', data);
-      return data;
-    })
     .catch(error => {
       console.error('Error:', error);
     });
-
-
 
 }
 
@@ -106,12 +98,16 @@ function saveAchievements() {
   //POST
   // https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=190933907&gameId=infinitewar
 
-  fetch(`https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=190933907&gameId=NachoBlaster`, {
-    method: 'POST'
+  fetch(`https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=${a.get('userId')}&gameId=NachoBlaster`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: { data: JSON.stringify(achievements) }
   })
     .then(response => response.json())
     .then(data => {
-      achievements = JSON.stringify(Achievements);
       console.log('Success:', data);
     })
     .catch(error => {
@@ -152,9 +148,9 @@ function displayLeaderboard(leaderboard) {
   leaderboardContainer.innerHTML = '<h2>Leaderboard</h2><ol id="leaderboard-list"></ol>';
   const leaderboardList = document.getElementById('leaderboard-list');
 
-  leaderboard.forEach(entry => {
+  leaderboard.items.forEach((entry, i) => {
     const listItem = document.createElement('li');
-    listItem.textContent = `${entry.position}. ${entry.user.first_name} ${entry.user.last_name || ''} - ${entry.score}`;
+    listItem.textContent = `${i + 1}. ${entry.userName} - ${entry.score}`;
     leaderboardList.appendChild(listItem);
   });
 
