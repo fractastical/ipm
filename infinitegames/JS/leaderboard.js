@@ -129,6 +129,22 @@ function loadAchievements() {
   }
 }
 
+async function getAchievementsFromApi() {
+  const a = new URLSearchParams(window.location.href);
+  const response =  fetch(`https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=${a.get('userId')}&gameId=NachoBlaster`, {
+     method: 'GET' 
+    }).catch(error => {
+      console.error('Error:', error);
+    });
+
+  const responseData = (await response).json();
+  if (responseData.data) {
+    return JSON.parse(responseData.data);
+  } else {
+    return null;
+  }
+}
+
 
 function loadUnlocks() {
   const savedUnlocks = localStorage.getItem('NachoBlasterModesUnlocked');
