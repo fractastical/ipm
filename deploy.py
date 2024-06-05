@@ -10,19 +10,12 @@ source_js_dir = './infinitegames/js'  # Replace with the path to your source JS 
 source_css_dir = './infinitegames/css'  # Replace with the path to your source CSS files
 
 
-target_dirs = ['/Users/jd/Documents/Github/infinitepong', 
-'/Users/jd/Documents/Github/nachoblaster', 
-'/Users/jd/Documents/Github/nachoblaster3d',
- '/Users/jd/Documents/Github/infiniteflap',
- '/Users/jd/Documents/Github/infiniteguess',
- '/Users/jd/Documents/Github/infinitesnake3d/3d',
- '/Users/jd/Documents/Github/infinitesnake3d/2d',
- '/Users/jd/Documents/Github/infinitewar'
-  ]
-
+deploy_dirs_file = 'deploygames.txt'  # Replace with the path to your deploy directories text file
+version_file = 'version.txt'  # Replace with the path to your version.txt file
 
 # Get the current version timestamp
 version_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+current_date = datetime.datetime.now()
 
 # Function to find external variables referenced in the JS files
 def find_external_vars(js_file_path):
@@ -41,8 +34,34 @@ def find_external_vars(js_file_path):
     
     return external_vars
 
+# Function to read target directories from the text file
+def read_deploy_dirs(file_path):
+    with open(file_path, 'r') as file:
+        dirs = [line.strip() for line in file if line.strip()]
+    return dirs
+
+# Function to update version.txt
+def update_version_file(version_file_path):
+    if os.path.exists(version_file_path):
+        with open(version_file_path, 'r') as file:
+            lines = file.readlines()
+            if len(lines) >= 2:
+                current_version = int(lines[0].split(':')[1].strip())
+                new_version = current_version + 1
+            else:
+                new_version = 1
+    else:
+        new_version = 1
+
+    with open(version_file_path, 'w') as file:
+        file.write(f"Version: {new_version}\n")
+        file.write(f"Date: {current_date}\n")
+
 # Function to copy JS and CSS files to target directories and ensure inclusion in index.html
 def copy_and_check_files():
+    # Read target directories from the text file
+    target_dirs = read_deploy_dirs(deploy_dirs_file)
+
     # Get list of JS and CSS files in the source directories
     js_files = [f for f in os.listdir(source_js_dir) if f.endswith('.js')]
     css_files = [f for f in os.listdir(source_css_dir) if f.endswith('.css')]
@@ -133,7 +152,9 @@ def copy_and_check_files():
                 if external_vars:
                     print(f"External variables referenced in {js_file}: {', '.join(external_vars)}")
 
-# Run the function
+# Run the functions
 copy_and_check_files()
+update_version_file(version_file)
 
 print(f"JavaScript and CSS files copied and versioned with timestamp {version_timestamp}.")
+print(f"Version file updated.")
