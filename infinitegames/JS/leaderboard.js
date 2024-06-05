@@ -189,8 +189,7 @@ async function setAchievementsFromApi(data) {
 async function handleEndGameOnServer() {
 
   try {
-    const response = await endGameSessionApi(score);
-    console.log(response);
+    await endGameSessionApi(score);
     await fetchLeaderboard();
   } catch (error) {
     console.error('Error:', error);
