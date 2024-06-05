@@ -1,7 +1,9 @@
 const baseUrl = 'https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api';
 let gameSessionId = '';
 
-// outside dependencies should just be the score variable
+// outside dependencies:
+// score
+// gameId  
 
 // implement in startGame function
 function startGamingSessionApi() {
@@ -128,6 +130,20 @@ function loadAchievements() {
   }
 }
 
+async function handleEndGameOnServer() {
+
+  try {
+        const response = await endGameSessionApi(score);
+        console.log(response);
+        if (response) {
+          fetchLeaderboard();
+
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+
+}
 
 function loadUnlocks() {
   const savedUnlocks = localStorage.getItem('NachoBlasterModesUnlocked');
