@@ -86,7 +86,7 @@ function getActivityStats() {
 }
 
 
-function saveAchievements() {
+async function saveAchievements() {
 
   localStorage.setItem('achievements', JSON.stringify(Achievements));
 
@@ -94,26 +94,11 @@ function saveAchievements() {
 
   if (!a.get('userId')) return;
 
-  const gameRequestId = a.get('gameRequestId');
+  // const gameRequestId = a.get('gameRequestId');
   //POST
   // https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=190933907&gameId=infinitewar
 
-  const dataJsonString = JSON.stringify(achievements);
-  fetch(`https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=${a.get('userId')}&gameId=NachoBlaster`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ data: dataJsonString })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+  await setAchievementsFromApi(Achievements);
 }
 
 function saveUnlocks() {
@@ -138,11 +123,30 @@ async function getAchievementsFromApi() {
     });
 
   const responseData = (await response).json();
+    console.log('responseData', responseData);
   if (responseData.data) {
     return JSON.parse(responseData.data);
   } else {
     return null;
   }
+}
+
+async function setAchievementsFromApi(data) {
+  const a = new URLSearchParams(window.location.href);
+  const dataString = JSON.stringify(data);
+  const response =  fetch(`https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=${a.get('userId')}&gameId=NachoBlaster`, {
+     method: 'POST',
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+     body: JSON.stringify({data: dataString})
+    }).catch(error => {
+      console.error('Error:', error);
+    });
+
+  const responseData = await response;
+  console.log(responseData)
 }
 
 
