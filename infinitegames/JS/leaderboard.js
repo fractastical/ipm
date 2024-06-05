@@ -98,13 +98,14 @@ function saveAchievements() {
   //POST
   // https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=190933907&gameId=infinitewar
 
+  const dataJsonString = JSON.stringify(achievements);
   fetch(`https://rzzuxqt0hi.execute-api.eu-central-1.amazonaws.com/Prod/api/telegram-game/user-data?userId=${a.get('userId')}&gameId=NachoBlaster`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: { data: JSON.stringify(achievements) }
+    body: JSON.stringify({ data: dataJsonString })
   })
     .then(response => response.json())
     .then(data => {
