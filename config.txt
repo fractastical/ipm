@@ -1,7 +1,10 @@
-~/Documents/Github/infinitepong
-~/Documents/Github/nachoblaster
-~/Documents/Github/nachoblaster3d
-~/Documents/Github/infiniteflap
-~/Documents/Github/infinitesnake
-~/Documents/Github/infinitesnake3d
-~/Documents/Github/infiniteguess
+/Users/jd/Documents/Github/infinitepong
+/Users/jd/Documents/Github/nachoblaster
+/Users/jd/Documents/Github/nachoblaster3d
+/Users/jd/Documents/Github/infiniteflap
+/Users/jd/Documents/Github/infinitesnake
+/Users/jd/Documents/Github/infinitesnake3d
+/Users/jd/Documents/Github/infiniteguess
+/Users/jd/Documents/Github/infinitebaloons
+/Users/jd/Documents/Github/infinitewar
+/Users/jd/Documents/Github/metaspacewar
