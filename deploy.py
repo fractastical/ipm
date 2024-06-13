@@ -70,16 +70,24 @@ def get_commit_history(repo_dir):
 # Function to plot the activity of each repository over time
 def plot_activity(deploy_dirs):
     plt.figure(figsize=(14, 8))
-
     colors = plt.cm.get_cmap('tab10', len(deploy_dirs))
+
+    total_commits = 0
+    commits_per_repo = {}
 
     for idx, repo_dir in enumerate(deploy_dirs):
         dir_name = os.path.basename(repo_dir.strip('/'))
         commit_dates = get_commit_history(repo_dir)
+        num_commits = len(commit_dates)
+        commits_per_repo[dir_name] = num_commits
+        total_commits += num_commits
         
         if commit_dates:
             dates, counts = zip(*[(date, commit_dates.count(date)) for date in set(commit_dates)])
-            plt.scatter(dates, counts, label=dir_name, color=colors(idx))
+            # Sort the dates to ensure the line is drawn left to right
+            sorted_dates, sorted_counts = zip(*sorted(zip(dates, counts)))
+            plt.plot(sorted_dates, sorted_counts, label=dir_name, color=colors(idx))
+            plt.scatter(sorted_dates, sorted_counts, color=colors(idx))
 
     plt.title("GitHub Repository Activity Over Time")
     plt.xlabel("Date")
@@ -90,6 +98,11 @@ def plot_activity(deploy_dirs):
     plt.gcf().autofmt_xdate()
     plt.tight_layout()
     plt.show()
+
+    # Print the summary
+    print(f"Total number of commits found: {total_commits}")
+    for repo, count in commits_per_repo.items():
+        print(f"Repository '{repo}' has {count} commits")
 
 # Function to update version.txt
 def update_version_file(version_file_path):
@@ -328,7 +341,9 @@ def copy_and_check_files():
 copy_and_check_files()
 generate_main_index_html(deploy_dirs_file, "index.html")
 update_version_file(version_file)
-plot_activity(deploy_dirs_file)
+deploy_dirs = read_deploy_dirs(deploy_dirs_file)
+
+plot_activity(deploy_dirs)
 
 print(f"JavaScript and CSS files copied and versioned with timestamp {version_timestamp}.")
 print(f"Version file updated.")
