@@ -205,6 +205,8 @@ function loadUnlocks() {
     modesUnlocked = JSON.parse(savedUnlocks);
     document.getElementById('normalButton').disabled = !modesUnlocked.normal;
     document.getElementById('hardButton').disabled = !modesUnlocked.hard;
+    document.getElementById('heroButton').disabled = !modesUnlocked.hero;
+
   }
 }
 
@@ -223,5 +225,5 @@ function displayLeaderboard(leaderboard) {
   });
 
   document.getElementById('leaderboard-container').style.display = 'block';
-  document.getElementById('coins').textContent = coins;
+  // document.getElementById('coins').textContent = coins;
 }

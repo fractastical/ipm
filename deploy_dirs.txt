@@ -5,6 +5,8 @@
 /Users/jd/Documents/Github/infinitesnake
 /Users/jd/Documents/Github/infinitesnake3d
 /Users/jd/Documents/Github/infiniteguess
-/Users/jd/Documents/Github/infinitebaloons
+/Users/jd/Documents/Github/infiniteballoons
 /Users/jd/Documents/Github/infinitewar
 /Users/jd/Documents/Github/metaspacewar
+/Users/jd/Documents/Github/infinitepyramidpong
+/Users/jd/Documents/Github/infinitebreak
