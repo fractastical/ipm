@@ -71,15 +71,20 @@ def get_commit_history(repo_dir):
         print(f"Error processing repository {repo_dir}: {e}")
         return []
 
-# Function to plot the activity of each repository over time
+
+# Function to plot the activity of each repository over time and save the graph to the images folder
 def plot_activity(deploy_dirs):
     plt.figure(figsize=(14, 8))
-    colors = plt.cm.get_cmap('tab10', len(deploy_dirs))
+    colors = plt.cm.get_cmap('tab10', len(deploy_dirs) + 1)  # +1 for the local directory
 
     total_commits = 0
     commits_per_repo = {}
 
-    for idx, repo_dir in enumerate(deploy_dirs):
+    # Include the local directory in the plot
+    local_dir = os.getcwd()
+    all_dirs = deploy_dirs + [local_dir]
+
+    for idx, repo_dir in enumerate(all_dirs):
         dir_name = os.path.basename(repo_dir.strip('/'))
         commit_dates = get_commit_history(repo_dir)
         num_commits = len(commit_dates)
@@ -101,7 +106,13 @@ def plot_activity(deploy_dirs):
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
     plt.gcf().autofmt_xdate()
     plt.tight_layout()
-    plt.show()
+
+    # Save the graph to the images folder
+    images_dir = os.path.join(os.getcwd(), 'images')
+    os.makedirs(images_dir, exist_ok=True)
+    plot_path = os.path.join(images_dir, 'commit_activity.png')
+    plt.savefig(plot_path)
+    plt.close()
 
     # Print the summary
     print(f"Total number of commits found: {total_commits}")
@@ -475,11 +486,9 @@ template_file = './index_template.html'  # Replace with the path to your templat
 copy_and_check_files()
 update_version_file(version_file)
 deploy_dirs = read_deploy_dirs(deploy_dirs_file)
-generate_index_html(deploy_dirs, template_file)
-
-plot_activity(deploy_dirs)
 
 asyncio.get_event_loop().run_until_complete(generate_index_html_with_snapshots(deploy_dirs, template_file, "log.txt"))
+plot_activity(deploy_dirs)
 
 print(f"JavaScript and CSS files copied and versioned with timestamp {version_timestamp}.")
 print(f"Version file updated.")
