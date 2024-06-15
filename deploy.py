@@ -515,6 +515,7 @@ async def generate_index_html_with_snapshots(deploy_dirs, template_file, log_fil
 
 
 # Function to deploy files to target directories
+# Function to deploy files to target directories
 def deploy_files(source_js_dir, source_css_dir, target_dirs, version_file_path):
     new_version, version_timestamp = update_version_file(version_file_path)
 
@@ -532,14 +533,28 @@ def deploy_files(source_js_dir, source_css_dir, target_dirs, version_file_path):
             new_file_name = f"{new_version}_{base_name}_{version_timestamp}{ext}"
             source_path = os.path.join(source_js_dir, js_file)
             target_path = os.path.join(js_target_dir, new_file_name)
-            shutil.copy2(source_path, target_path)
+            
+            # Compare the hash of the source and target files
+            source_hash = compute_file_hash(source_path)
+            target_file_exists = os.path.exists(target_path)
+            target_hash = compute_file_hash(target_path) if target_file_exists else None
+
+            if not target_file_exists or source_hash != target_hash:
+                shutil.copy2(source_path, target_path)
 
         for css_file in css_files:
             base_name, ext = os.path.splitext(css_file)
             new_file_name = f"{new_version}_{base_name}_{version_timestamp}{ext}"
             source_path = os.path.join(source_css_dir, css_file)
             target_path = os.path.join(css_target_dir, new_file_name)
-            shutil.copy2(source_path, target_path)
+            
+            # Compare the hash of the source and target files
+            source_hash = compute_file_hash(source_path)
+            target_file_exists = os.path.exists(target_path)
+            target_hash = compute_file_hash(target_path) if target_file_exists else None
+
+            if not target_file_exists or source_hash != target_hash:
+                shutil.copy2(source_path, target_path)
 
         update_index_html(target_dir, js_files, css_files, new_version, version_timestamp)
 
