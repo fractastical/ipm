@@ -121,10 +121,26 @@
         canvas {
             max-width: 100%;
         }
+
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div id="auth">
+    <div class="top-right" id="user-info" class="hidden">
+        <span id="user-nickname"></span> | Coins: <span id="user-coins"></span>
+    </div>
+    <div class="top-right" id="login-link">
+        <a href="#" id="login-toggle">Login</a>
+    </div>
+    <div id="auth" class="hidden">
         <h1>Infinite Games</h1>
         <h2>Login</h2>
         <form id="login-form">
@@ -133,8 +149,7 @@
             <button type="submit">Login</button>
         </form>
     </div>
-    <div id="game-section" style="display:none;">
-        <div id="coin-display">Coins: <span id="coin-count">0</span></div>
+    <div id="game-section">
         <!-- Game-specific content will be inserted here -->
         
             <div class="grid-container">
@@ -237,12 +252,12 @@
             -->
             
     </div>
-    
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script type="module">
+    <script>
         // Firebase configuration and initialization
 const firebaseConfig = {
     apiKey: "AIzaSyCvgdn8c6D8RusKRr4vHAzFj1x4FNxrXVE",
@@ -257,7 +272,6 @@ const firebaseConfig = {
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Login form submission
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
@@ -265,8 +279,6 @@ const firebaseConfig = {
             auth.signInWithEmailAndPassword(email, password)
                 .then(userCredential => {
                     const user = userCredential.user;
-                    document.getElementById('auth').style.display = 'none';
-                    document.getElementById('game-section').style.display = 'block';
                     loadUserData(user.uid);
                 })
                 .catch(error => {
@@ -274,13 +286,26 @@ const firebaseConfig = {
                 });
         });
 
-        // Function to load user data
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                loadUserData(user.uid);
+            } else {
+                document.getElementById('user-info').classList.add('hidden');
+                document.getElementById('login-link').classList.remove('hidden');
+            }
+        });
+
         async function loadUserData(userId) {
             try {
-                const userDoc = await firebase.firestore().doc(`users/${userId}`).get();
+                const userDoc = await db.doc(`users/${userId}`).get();
                 if (userDoc.exists) {
                     const userData = userDoc.data();
-                    document.getElementById('coin-count').textContent = userData.coins;
+                    document.getElementById('user-nickname').textContent = userData.nickname;
+                    document.getElementById('user-coins').textContent = userData.coins;
+                    document.getElementById('user-info').classList.remove('hidden');
+                    document.getElementById('login-link').classList.add('hidden');
+                    document.getElementById('auth').classList.add('hidden');
+                    document.getElementById('game-section').classList.remove('hidden');
                 } else {
                     console.log("No such document!");
                 }
@@ -288,107 +313,11 @@ const firebaseConfig = {
                 console.error("Error getting user data:", error);
             }
         }
-    </script>
 
-    
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitepong.png" alt="infinitepong" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitepong/">infinitepong</a>
-                </div>
-            </div>
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/nachoblaster3d.png" alt="nachoblaster3d" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/nachoblaster3d/">nachoblaster3d</a>
-                </div>
-            </div>
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infiniteflap.png" alt="infiniteflap" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infiniteflap/">infiniteflap</a>
-                </div>
-            </div>
-            
-            <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitesnake.png" alt="infinitesnake" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitesnake/">infinitesnake</a>
-                </div>
-            </div>
-            -->
-            
-            <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitesnake3d.png" alt="infinitesnake3d" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitesnake3d/">infinitesnake3d</a>
-                </div>
-            </div>
-            -->
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infiniteguess.png" alt="infiniteguess" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infiniteguess/">infiniteguess</a>
-                </div>
-            </div>
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infiniteballoons.png" alt="infiniteballoons" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infiniteballoons/">infiniteballoons</a>
-                </div>
-            </div>
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitewar.png" alt="infinitewar" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitewar/">infinitewar</a>
-                </div>
-            </div>
-            
-            <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitepyramidpong.png" alt="infinitepyramidpong" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitepyramidpong/">infinitepyramidpong</a>
-                </div>
-            </div>
-            -->
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitebreak.png" alt="infinitebreak" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitebreak/">infinitebreak</a>
-                </div>
-            </div>
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitespacewar.png" alt="infinitespacewar" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitespacewar/">infinitespacewar</a>
-                </div>
-            </div>
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitememes.png" alt="infinitememes" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitememes/">infinitememes</a>
-                </div>
-            </div>
-            
-            <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitehex.png" alt="infinitehex" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitehex/">infinitehex</a>
-                </div>
-            </div>
-            -->
-            
+        document.getElementById('login-toggle').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('auth').classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
