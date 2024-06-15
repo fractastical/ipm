@@ -6,6 +6,10 @@ import shutil
 import datetime
 from datetime import datetime
 import re
+import asyncio
+from pyppeteer import launch
+from PIL import Image
+
 
 # Define paths
 source_dir = './infinitegames'  # Replace with the path to your source directory
@@ -366,6 +370,50 @@ def generate_index_html(deploy_dirs, template_file):
 
     print(f"Generated index.html in the current directory")
 
+
+
+async def capture_snapshot(url, save_path):
+    browser = await launch(headless=True)
+    page = await browser.newPage()
+    await page.goto(url)
+    await page.screenshot({'path': save_path})
+    await browser.close()
+
+# Function to generate a single index.html file in the current directory with snapshots
+async def generate_index_html_with_snapshots(deploy_dirs, template_file):
+    with open(template_file, 'r') as file:
+        template_content = file.read()
+
+    game_content = ''
+    for directory in deploy_dirs:
+        dir_name = os.path.basename(directory.strip('/'))
+        url = f'file://{os.path.join(directory, "index.html")}'
+        snapshot_path = os.path.join(os.getcwd(), f'{dir_name}.png')
+        
+        # Capture the snapshot
+        await capture_snapshot(url, snapshot_path)
+
+        # Add a link for each game directory with an icon
+        game_content += f'''
+        <div class="grid-container">
+            <div class="grid-item">
+                <img src="{snapshot_path}" alt="{dir_name}" style="width:50px;height:50px;">
+                <a href="https://fractastical.github.io/{dir_name}/">{dir_name}</a>
+            </div>
+        </div>
+        '''
+
+    # Replace the {game_content} placeholder in the template with the generated game content
+    index_content = template_content.replace("{game_content}", game_content)
+
+    # Write the modified content to index.html in the current directory
+    output_file = os.path.join(os.getcwd(), 'index.html')
+    with open(output_file, 'w') as file:
+        file.write(index_content)
+
+    print(f"Generated index.html in the current directory with snapshots")
+
+
 # def generate_game_index_html(deploy_dirs, template_file):
 #     with open(template_file, 'r') as file:
 #         template_content = file.read()
@@ -399,6 +447,8 @@ deploy_dirs = read_deploy_dirs(deploy_dirs_file)
 generate_index_html(deploy_dirs, template_file)
 
 plot_activity(deploy_dirs)
+
+asyncio.get_event_loop().run_until_complete(generate_index_html_with_snapshots(deploy_dirs, template_file))
 
 print(f"JavaScript and CSS files copied and versioned with timestamp {version_timestamp}.")
 print(f"Version file updated.")

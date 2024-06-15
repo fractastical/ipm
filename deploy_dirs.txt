@@ -1,5 +1,4 @@
 /Users/jd/Documents/Github/infinite/infinitepong
-/Users/jd/Documents/Github/infinite/nachoblaster
 /Users/jd/Documents/Github/infinite/nachoblaster3d
 /Users/jd/Documents/Github/infinite/infiniteflap
 /Users/jd/Documents/Github/infinite/infinitesnake
@@ -7,7 +6,6 @@
 /Users/jd/Documents/Github/infinite/infiniteguess
 /Users/jd/Documents/Github/infinite/infiniteballoons
 /Users/jd/Documents/Github/infinite/infinitewar
-/Users/jd/Documents/Github/infinite/metaspacewar
 /Users/jd/Documents/Github/infinite/infinitepyramidpong
 /Users/jd/Documents/Github/infinite/infinitebreak
 /Users/jd/Documents/Github/infinite/infinitespacewar
