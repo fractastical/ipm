@@ -7,6 +7,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
         html, body {
             margin: 0;
             padding: 0;
@@ -25,6 +28,40 @@
             background-color: #000;
             color: #00ff00;
             padding-top: 50px;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #game-list {
+            display: block;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .game-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .game-item img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .game-item a {
+            color: #800080;
+            text-decoration: none;
+            font-size: 24px;
         }
 
         #auth, #game-section {
@@ -74,63 +111,6 @@
         button:hover {
             background: #00cc00;
         }
-
-        #coins {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .coin {
-            background: #222;
-            padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 0 10px #00ff00;
-            color: #00ff00;
-            width: 100px;
-            transition: background 0.3s;
-        }
-
-        .coin:hover {
-            background: #333;
-        }
-
-        #portfolio {
-            margin-top: 20px;
-        }
-
-        #portfolio-details, #portfolio-history, #leaderboard {
-            text-align: left;
-        }
-
-        #portfolio-details div, #portfolio-history div {
-            margin: 5px 0;
-        }
-
-        h3 {
-            font-size: 18px;
-        }
-
-        span {
-            color: #800080;
-        }
-
-        canvas {
-            max-width: 100%;
-        }
-
-        .top-right {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -150,124 +130,100 @@
         </form>
     </div>
     <div id="game-section">
-        <!-- Game-specific content will be inserted here -->
-        
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitepong.png" alt="infinitepong" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitepong/">infinitepong</a>
-                </div>
+        <div id="game-list">
+            <!-- Game items will be inserted here -->
+            
+            <div class="game-item">
+                <img src="images/infinitespacewar.png" alt="infinitespacewar">
+                <a href="https://fractastical.github.io/infinitespacewar/">infinitespacewar (Rating: 9)</a>
             </div>
             
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/nachoblaster3d.png" alt="nachoblaster3d" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/nachoblaster3d/">nachoblaster3d</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infinitememes.png" alt="infinitememes">
+                <a href="https://fractastical.github.io/infinitememes/">infinitememes (Rating: 7)</a>
             </div>
             
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infiniteflap.png" alt="infiniteflap" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infiniteflap/">infiniteflap</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infinitebreak.png" alt="infinitebreak">
+                <a href="https://fractastical.github.io/infinitebreak/">infinitebreak (Rating: 6)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/infinitepong.png" alt="infinitepong">
+                <a href="https://fractastical.github.io/infinitepong/">infinitepong (Rating: 0)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/nachoblaster3d.png" alt="nachoblaster3d">
+                <a href="https://fractastical.github.io/nachoblaster3d/">nachoblaster3d (Rating: 0)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/infiniteflap.png" alt="infiniteflap">
+                <a href="https://fractastical.github.io/infiniteflap/">infiniteflap (Rating: 0)</a>
             </div>
             
             <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitesnake.png" alt="infinitesnake" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitesnake/">infinitesnake</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infinitesnake.png" alt="infinitesnake">
+                <a href="https://fractastical.github.io/infinitesnake/">infinitesnake (Rating: 0)</a>
             </div>
             -->
             
             <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitesnake3d.png" alt="infinitesnake3d" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitesnake3d/">infinitesnake3d</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infinitesnake3d.png" alt="infinitesnake3d">
+                <a href="https://fractastical.github.io/infinitesnake3d/">infinitesnake3d (Rating: 0)</a>
             </div>
             -->
             
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infiniteguess.png" alt="infiniteguess" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infiniteguess/">infiniteguess</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infiniteguess.png" alt="infiniteguess">
+                <a href="https://fractastical.github.io/infiniteguess/">infiniteguess (Rating: 0)</a>
             </div>
             
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infiniteballoons.png" alt="infiniteballoons" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infiniteballoons/">infiniteballoons</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infiniteballoons.png" alt="infiniteballoons">
+                <a href="https://fractastical.github.io/infiniteballoons/">infiniteballoons (Rating: 0)</a>
             </div>
             
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitewar.png" alt="infinitewar" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitewar/">infinitewar</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infinitewar.png" alt="infinitewar">
+                <a href="https://fractastical.github.io/infinitewar/">infinitewar (Rating: 0)</a>
             </div>
             
             <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitepyramidpong.png" alt="infinitepyramidpong" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitepyramidpong/">infinitepyramidpong</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infinitepyramidpong.png" alt="infinitepyramidpong">
+                <a href="https://fractastical.github.io/infinitepyramidpong/">infinitepyramidpong (Rating: 0)</a>
             </div>
             -->
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitebreak.png" alt="infinitebreak" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitebreak/">infinitebreak</a>
-                </div>
-            </div>
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitespacewar.png" alt="infinitespacewar" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitespacewar/">infinitespacewar</a>
-                </div>
-            </div>
-            
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitememes.png" alt="infinitememes" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitememes/">infinitememes</a>
-                </div>
-            </div>
             
             <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/infinitehex.png" alt="infinitehex" style="width:50px;height:50px;">
-                    <a href="https://fractastical.github.io/infinitehex/">infinitehex</a>
-                </div>
+            <div class="game-item">
+                <img src="images/infinitehex.png" alt="infinitehex">
+                <a href="https://fractastical.github.io/infinitehex/">infinitehex (Rating: 0)</a>
             </div>
             -->
             
+        </div>
     </div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script>
+    <script type="module">
         // Firebase configuration and initialization
-const firebaseConfig = {
-    apiKey: "AIzaSyCvgdn8c6D8RusKRr4vHAzFj1x4FNxrXVE",
-    authDomain: "infinite-games-9c69e.firebaseapp.com",
-    projectId: "infinite-games-9c69e",
-    storageBucket: "infinite-games-9c69e.appspot.com",
-    messagingSenderId: "602022483888",
-    appId: "1:602022483888:web:f967a6c1cb236ae66ba875",
-    measurementId: "G-9LE6E1BKZ7"
-};
+		const firebaseConfig = {
+		    apiKey: "AIzaSyCvgdn8c6D8RusKRr4vHAzFj1x4FNxrXVE",
+		    authDomain: "infinite-games-9c69e.firebaseapp.com",
+		    projectId: "infinite-games-9c69e",
+		    storageBucket: "infinite-games-9c69e.appspot.com",
+		    messagingSenderId: "602022483888",
+		    appId: "1:602022483888:web:f967a6c1cb236ae66ba875",
+		    measurementId: "G-9LE6E1BKZ7"
+		};
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();

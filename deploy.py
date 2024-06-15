@@ -7,20 +7,23 @@ import datetime
 from datetime import datetime
 import re
 import asyncio
+import json
+
 from pyppeteer import launch
 from PIL import Image
 from matplotlib import colormaps
 import numpy as np
 
 # Define paths
-source_dir = './infinitegames'  # Replace with the path to your source directory
+source_base_dir = './infinitegames'  # Replace with the path to your source directory
 deploy_dirs_file = './deploy_dirs.txt'  # Replace with the path to your deploy directories text file
+RATINGS_FILE = 'game_ratings.json'
 
 # Subdirectories for JS and CSS files
-source_js_dir = os.path.join(source_dir, 'js')
-source_css_dir = os.path.join(source_dir, 'css')
-version_file = os.path.join(source_dir, 'version.txt')
-log_file = os.path.join(source_dir, 'deploy_log.txt')
+source_js_dir = os.path.join(source_base_dir, 'js')
+source_css_dir = os.path.join(source_base_dir, 'css')
+version_file_path = os.path.join(source_base_dir, 'version.txt')
+log_file = os.path.join(source_base_dir, 'deploy_log.txt')
 
 # Get the current version timestamp
 version_timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -163,6 +166,9 @@ def update_version_file(version_file_path):
     new_version = 1
     version_history = []
 
+    current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    version_timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+
     if os.path.exists(version_file_path):
         with open(version_file_path, 'r') as file:
             lines = file.readlines()
@@ -173,14 +179,13 @@ def update_version_file(version_file_path):
                         new_version = current_version + 1
                     version_history.append(line.strip())
 
-    # Append the new version and date to the history
-    version_history.append(f"Version: {new_version}")
-    version_history.append(f"Date: {current_date}")
-
-    # Write the updated history back to the file
     with open(version_file_path, 'w') as file:
+        file.write(f"Version: {new_version}\n")
+        file.write(f"Date: {current_date}\n")
+        file.write(f"Timestamp: {version_timestamp}\n")
         file.write('\n'.join(version_history) + '\n')
 
+    return new_version, version_timestamp
 
 # Function to check for key variables and functions in the content
 def check_key_elements(content, elements, element_type):
@@ -213,6 +218,84 @@ def ensure_leaderboard_container(index_content):
             index_content += leaderboard_html
 
     return index_content
+
+
+# Function to update the index.html file
+def update_index_html(target_dir, js_files, css_files, new_version, version_timestamp):
+    index_file = os.path.join(target_dir, 'index.html')
+    if not os.path.exists(index_file):
+        print(f"index.html not found in {target_dir}")
+        return
+
+    with open(index_file, 'r') as file:
+        index_content = file.read()
+
+    # Initialize lists to store missing elements
+    missing_variables = []
+    missing_functions = []
+
+    # Check for key variables and functions
+    for js_file in js_files:
+        js_file_path = os.path.join(source_js_dir, js_file)
+        with open(js_file_path, 'r') as js_content_file:
+            js_content = js_content_file.read()
+            missing_variables += check_key_elements(js_content, key_variables, "variable")
+            missing_functions += check_key_elements(js_content, key_functions, "function")
+
+    missing_variables += check_key_elements(index_content, key_variables, "variable")
+    missing_functions += check_key_elements(index_content, key_functions, "function")
+
+    # Log warnings for missing elements
+    if missing_variables or missing_functions:
+        log_warning(log_file, target_dir, missing_variables, missing_functions)
+
+    # Remove old #INFINITEGAMES entries for JS and CSS
+    index_content = re.sub(r'<!-- #INFINITEGAMES JS START -->.*<!-- #INFINITEGAMES JS END -->', '', index_content, flags=re.DOTALL)
+    index_content = re.sub(r'<!-- #INFINITEGAMES CSS START -->.*<!-- #INFINITEGAMES CSS END -->', '', index_content, flags=re.DOTALL)
+
+    # Ensure the leaderboard container is present
+    index_content = ensure_leaderboard_container(index_content)
+
+    # Prepare new includes within the #INFINITEGAMES namespace
+    new_js_includes = ['<!-- #INFINITEGAMES JS START -->']
+    for js_file in js_files:
+        base_name, ext = os.path.splitext(js_file)
+        new_file_name = f"{new_version}_{base_name}_{version_timestamp}{ext}"
+        new_js_include = f'<script src="infinite/js/{new_file_name}"></script>'
+        new_js_includes.append(new_js_include)
+    new_js_includes.append('<!-- #INFINITEGAMES JS END -->')
+
+    new_css_includes = ['<!-- #INFINITEGAMES CSS START -->']
+    for css_file in css_files:
+        base_name, ext = os.path.splitext(css_file)
+        new_file_name = f"{new_version}_{base_name}_{version_timestamp}{ext}"
+        new_css_include = f'<link rel="stylesheet" href="infinite/css/{new_file_name}">'
+        new_css_includes.append(new_css_include)
+    new_css_includes.append('<!-- #INFINITEGAMES CSS END -->')
+
+    # Insert new includes in the appropriate places
+    head_insert_pos = index_content.find('</head>')
+    if head_insert_pos != -1:
+        index_content = index_content[:head_insert_pos] + '\n'.join(new_css_includes) + '\n' + index_content[head_insert_pos:]
+
+    body_insert_pos = index_content.find('</body>')
+    if body_insert_pos != -1:
+        index_content = index_content[:body_insert_pos] + '\n'.join(new_js_includes) + '\n' + index_content[body_insert_pos:]
+
+    with open(index_file, 'w') as file:
+        file.write(index_content)
+
+    # Check for external variable references and log them
+    # for js_file in js_files:
+    #     source_file = os.path.join(source_js_dir, js_file)
+    #     external_vars = find_external_vars(source_file)
+    #     if external_vars:
+    #         print(f"External variables referenced in {js_file}: {', '.join(external_vars)}")
+
+    # Copy version.txt to the target directory
+    target_version_file = os.path.join(target_dir, 'version.txt')
+    shutil.copy2(version_file_path, target_version_file)
+
 
 # Function to log warnings
 def log_warning(log_file_path, target_dir, missing_variables, missing_functions):
@@ -271,126 +354,66 @@ def generate_main_index_html(deploy_dirs, output_file):
         file.write(html_content)
 
 
-# Function to copy JS and CSS files to target directories and ensure inclusion in index.html
+# Main function to copy JS and CSS files to target directories and ensure inclusion in index.html
 def copy_and_check_files():
     # Read target directories from the text file
     target_dirs = read_deploy_dirs(deploy_dirs_file)
 
-    # Get list of JS and CSS files in the source directories
-    js_files = [f for f in os.listdir(source_js_dir) if f.endswith('.js')]
-    css_files = [f for f in os.listdir(source_css_dir) if f.endswith('.css')]
+    # Ensure the source directories are correctly set
+    source_js_dir = os.path.join(source_base_dir, 'js')
+    source_css_dir = os.path.join(source_base_dir, 'css')
+
+    # Deploy files to the target directories
+    deploy_files(source_js_dir, source_css_dir, target_dirs, version_file_path)
+
+def load_ratings(file_path):
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            try:
+                ratings = json.load(file)
+            except json.JSONDecodeError:
+                ratings = {}
+    else:
+        ratings = {}
+    return ratings
+
+def save_ratings(file_path, ratings):
+    with open(file_path, 'w') as file:
+        json.dump(ratings, file, indent=4)
+
+async def generate_game_content(deploy_dirs, ratings, log_file):
+    game_content = ''
+    log_entries = []
+    for directory in sorted(deploy_dirs, key=lambda d: ratings.get(os.path.basename(d.strip('/')), 0), reverse=True):
+        dir_name = os.path.basename(directory.strip('/'))
+        rating = ratings.get(dir_name, 0)
+        url = f'https://fractastical.github.io/{dir_name}/'
+        snapshot_path = f'images/{dir_name}.png'
+        
+        success = await capture_snapshot(url, snapshot_path)
+        if success:
+            game_content += f'''
+            <div class="game-item">
+                <img src="{snapshot_path}" alt="{dir_name}">
+                <a href="{url}">{dir_name} (Rating: {rating})</a>
+            </div>
+            '''
+        else:
+            game_content += f'''
+            <!--
+            <div class="game-item">
+                <img src="{snapshot_path}" alt="{dir_name}">
+                <a href="{url}">{dir_name} (Rating: {rating})</a>
+            </div>
+            -->
+            '''
+            log_entries.append(f'404 error for {url}')
+
+    with open(log_file, 'a') as log:
+        for entry in log_entries:
+            log.write(entry + '\n')
     
-    for target_dir in target_dirs:
-        infinite_js_dir = os.path.join(target_dir, 'infinite/js')
-        infinite_css_dir = os.path.join(target_dir, 'infinite/css')
-        
-        # Create /infinite/js/ and /infinite/css/ directories if they do not exist
-        if not os.path.exists(infinite_js_dir):
-            os.makedirs(infinite_js_dir)
-        if not os.path.exists(infinite_css_dir):
-            os.makedirs(infinite_css_dir)
-        
-        # Copy JS files to /infinite/js/ directory
-        for js_file in js_files:
-            source_file = os.path.join(source_js_dir, js_file)
-            base_name, ext = os.path.splitext(js_file)
-            if not re.search(r'_\d{14}$', base_name):
-                new_file_name = f"{base_name}_{version_timestamp}{ext}"
-            else:
-                new_file_name = f"{base_name}{ext}"
-            target_file = os.path.join(infinite_js_dir, new_file_name)
-            
-            # Create a versioned copy of the JS file in the target directory
-            shutil.copy2(source_file, target_file)
-        
-        # Copy CSS files to /infinite/css/ directory
-        for css_file in css_files:
-            source_file = os.path.join(source_css_dir, css_file)
-            base_name, ext = os.path.splitext(css_file)
-            if not re.search(r'_\d{14}$', base_name):
-                new_file_name = f"{base_name}_{version_timestamp}{ext}"
-            else:
-                new_file_name = f"{base_name}{ext}"
-            target_file = os.path.join(infinite_css_dir, new_file_name)
-            
-            # Create a versioned copy of the CSS file in the target directory
-            shutil.copy2(source_file, target_file)
-        
-        # Ensure JS and CSS files are included in index.html
-        index_file = os.path.join(target_dir, 'index.html')
-        if os.path.exists(index_file):
-            with open(index_file, 'r') as file:
-                index_content = file.read()
-
-            # Initialize lists to store missing elements
-            missing_variables = []
-            missing_functions = []
-
-            # Check for key variables and functions
-            for js_file in js_files:
-                js_file_path = os.path.join(source_js_dir, js_file)
-                with open(js_file_path, 'r') as js_content_file:
-                    js_content = js_content_file.read()
-                    missing_variables += check_key_elements(js_content, key_variables, "variable")
-                    missing_functions += check_key_elements(js_content, key_functions, "function")
-            
-            missing_variables += check_key_elements(index_content, key_variables, "variable")
-            missing_functions += check_key_elements(index_content, key_functions, "function")
-            
-            # Log warnings for missing elements
-            if missing_variables or missing_functions:
-                log_warning(log_file, target_dir, missing_variables, missing_functions)
-            
-            # Remove old #INFINITEGAMES entries for JS and CSS
-            index_content = re.sub(r'<!-- #INFINITEGAMES JS START -->.*<!-- #INFINITEGAMES JS END -->', '', index_content, flags=re.DOTALL)
-            index_content = re.sub(r'<!-- #INFINITEGAMES CSS START -->.*<!-- #INFINITEGAMES CSS END -->', '', index_content, flags=re.DOTALL)
-           
-            # Ensure the leaderboard container is present
-            index_content = ensure_leaderboard_container(index_content)
-
-            # Prepare new includes within the #INFINITEGAMES namespace
-            new_js_includes = ['<!-- #INFINITEGAMES JS START -->']
-            for js_file in js_files:
-                base_name, ext = os.path.splitext(js_file)
-                if not re.search(r'_\d{14}$', base_name):
-                    new_js_include = f'<script src="infinite/js/{base_name}_{version_timestamp}{ext}"></script>'
-                else:
-                    new_js_include = f'<script src="infinite/js/{base_name}{ext}"></script>'
-                new_js_includes.append(new_js_include)
-            new_js_includes.append('<!-- #INFINITEGAMES JS END -->')
-            
-            new_css_includes = ['<!-- #INFINITEGAMES CSS START -->']
-            for css_file in css_files:
-                base_name, ext = os.path.splitext(css_file)
-                if not re.search(r'_\d{14}$', base_name):
-                    new_css_include = f'<link rel="stylesheet" href="infinite/css/{base_name}_{version_timestamp}{ext}">'
-                else:
-                    new_css_include = f'<link rel="stylesheet" href="infinite/css/{base_name}{ext}">'
-                new_css_includes.append(new_css_include)
-            new_css_includes.append('<!-- #INFINITEGAMES CSS END -->')
-            
-            # Insert new includes in the appropriate places
-            head_insert_pos = index_content.find('</head>')
-            if head_insert_pos != -1:
-                index_content = index_content[:head_insert_pos] + '\n'.join(new_css_includes) + '\n' + index_content[head_insert_pos:]
-            
-            body_insert_pos = index_content.find('</body>')
-            if body_insert_pos != -1:
-                index_content = index_content[:body_insert_pos] + '\n'.join(new_js_includes) + '\n' + index_content[body_insert_pos:]
-            
-            with open(index_file, 'w') as file:
-                file.write(index_content)
-            
-            # Check for external variable references and log them
-            for js_file in js_files:
-                source_file = os.path.join(source_js_dir, js_file)
-                external_vars = find_external_vars(source_file)
-                if external_vars:
-                    print(f"External variables referenced in {js_file}: {', '.join(external_vars)}")
-
-        # Copy version.txt to the target directory
-        target_version_file = os.path.join(target_dir, 'version.txt')
-        shutil.copy2(version_file, target_version_file)
+    return game_content
 
 
 # Function to generate a single index.html file in the current directory
@@ -437,62 +460,60 @@ async def capture_snapshot(url, save_path):
 
 # Function to generate a single index.html file in the current directory with snapshots
 async def generate_index_html_with_snapshots(deploy_dirs, template_file, log_file):
+    # Load or initialize ratings
+    ratings = load_ratings(RATINGS_FILE)
+    
+    # Initialize ratings to 0 for new games
+    for directory in deploy_dirs:
+        dir_name = os.path.basename(directory.strip('/'))
+        if dir_name not in ratings:
+            ratings[dir_name] = 0
+    
+    # Save the ratings to the file
+    save_ratings(RATINGS_FILE, ratings)
+    
+    game_content = await generate_game_content(deploy_dirs, ratings, log_file)
+    
     with open(template_file, 'r') as file:
         template_content = file.read()
 
-    # Create an images directory if it doesn't exist
-    images_dir = os.path.join(os.getcwd(), 'images')
-    os.makedirs(images_dir, exist_ok=True)
-
-    base_url = "https://fractastical.github.io/"
-    game_content = ''
-    log_entries = []
-    
-    for directory in deploy_dirs:
-        dir_name = os.path.basename(directory.strip('/'))
-        url = f'{base_url}{dir_name}/'
-        snapshot_path = os.path.join(images_dir, f'{dir_name}.png')
-        
-        # Capture the snapshot and check for 404
-        success = await capture_snapshot(url, snapshot_path)
-
-        if success:
-            # Add a link for each game directory with an icon
-            game_content += f'''
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/{dir_name}.png" alt="{dir_name}" style="width:50px;height:50px;">
-                    <a href="{url}">{dir_name}</a>
-                </div>
-            </div>
-            '''
-        else:
-            game_content += f'''
-            <!--
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src="images/{dir_name}.png" alt="{dir_name}" style="width:50px;height:50px;">
-                    <a href="{url}">{dir_name}</a>
-                </div>
-            </div>
-            -->
-            '''
-            log_entries.append(f'404 error for {url}')
-
-    # Replace the {game_content} placeholder in the template with the generated game content
     index_content = template_content.replace("{game_content}", game_content)
 
-    # Write the modified content to index.html in the current directory
     output_file = os.path.join(os.getcwd(), 'index.html')
     with open(output_file, 'w') as file:
         file.write(index_content)
-
-    # Write the log entries to the log file
-    with open(log_file, 'a') as log:
-        for entry in log_entries:
-            log.write(entry + '\n')
-
+    
     print(f"Generated index.html in the current directory with snapshots")
+
+
+# Function to deploy files to target directories
+def deploy_files(source_js_dir, source_css_dir, target_dirs, version_file_path):
+    new_version, version_timestamp = update_version_file(version_file_path)
+
+    js_files = [f for f in os.listdir(source_js_dir) if f.endswith('.js')]
+    css_files = [f for f in os.listdir(source_css_dir) if f.endswith('.css')]
+
+    for target_dir in target_dirs:
+        js_target_dir = os.path.join(target_dir, 'infinite', 'js')
+        css_target_dir = os.path.join(target_dir, 'infinite', 'css')
+        os.makedirs(js_target_dir, exist_ok=True)
+        os.makedirs(css_target_dir, exist_ok=True)
+
+        for js_file in js_files:
+            base_name, ext = os.path.splitext(js_file)
+            new_file_name = f"{new_version}_{base_name}_{version_timestamp}{ext}"
+            source_path = os.path.join(source_js_dir, js_file)
+            target_path = os.path.join(js_target_dir, new_file_name)
+            shutil.copy2(source_path, target_path)
+
+        for css_file in css_files:
+            base_name, ext = os.path.splitext(css_file)
+            new_file_name = f"{new_version}_{base_name}_{version_timestamp}{ext}"
+            source_path = os.path.join(source_css_dir, css_file)
+            target_path = os.path.join(css_target_dir, new_file_name)
+            shutil.copy2(source_path, target_path)
+
+        update_index_html(target_dir, js_files, css_files, new_version, version_timestamp)
 
 
 # def generate_game_index_html(deploy_dirs, template_file):
@@ -521,9 +542,10 @@ async def generate_index_html_with_snapshots(deploy_dirs, template_file, log_fil
 #         print(f"Generated index.html for {directory}")
 
 # Run the functions
+current_directory = os.getcwd()
 template_file = './index_template.html'  # Replace with the path to your template file
 copy_and_check_files()
-update_version_file(version_file)
+update_version_file(version_file_path)
 deploy_dirs = read_deploy_dirs(deploy_dirs_file)
 
 asyncio.get_event_loop().run_until_complete(generate_index_html_with_snapshots(deploy_dirs, template_file, "log.txt"))

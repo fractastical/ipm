@@ -7,6 +7,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
         html, body {
             margin: 0;
             padding: 0;
@@ -25,6 +28,40 @@
             background-color: #000;
             color: #00ff00;
             padding-top: 50px;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #game-list {
+            display: block;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .game-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .game-item img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .game-item a {
+            color: #800080;
+            text-decoration: none;
+            font-size: 24px;
         }
 
         #auth, #game-section {
@@ -74,63 +111,6 @@
         button:hover {
             background: #00cc00;
         }
-
-        #coins {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .coin {
-            background: #222;
-            padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 0 10px #00ff00;
-            color: #00ff00;
-            width: 100px;
-            transition: background 0.3s;
-        }
-
-        .coin:hover {
-            background: #333;
-        }
-
-        #portfolio {
-            margin-top: 20px;
-        }
-
-        #portfolio-details, #portfolio-history, #leaderboard {
-            text-align: left;
-        }
-
-        #portfolio-details div, #portfolio-history div {
-            margin: 5px 0;
-        }
-
-        h3 {
-            font-size: 18px;
-        }
-
-        span {
-            color: #800080;
-        }
-
-        canvas {
-            max-width: 100%;
-        }
-
-        .top-right {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -150,25 +130,27 @@
         </form>
     </div>
     <div id="game-section">
-        <!-- Game-specific content will be inserted here -->
-        {game_content}
+        <div id="game-list">
+            <!-- Game items will be inserted here -->
+            {game_content}
+        </div>
     </div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script>
+    <script type="module">
         // Firebase configuration and initialization
-const firebaseConfig = {
-    apiKey: "AIzaSyCvgdn8c6D8RusKRr4vHAzFj1x4FNxrXVE",
-    authDomain: "infinite-games-9c69e.firebaseapp.com",
-    projectId: "infinite-games-9c69e",
-    storageBucket: "infinite-games-9c69e.appspot.com",
-    messagingSenderId: "602022483888",
-    appId: "1:602022483888:web:f967a6c1cb236ae66ba875",
-    measurementId: "G-9LE6E1BKZ7"
-};
+		const firebaseConfig = {
+		    apiKey: "AIzaSyCvgdn8c6D8RusKRr4vHAzFj1x4FNxrXVE",
+		    authDomain: "infinite-games-9c69e.firebaseapp.com",
+		    projectId: "infinite-games-9c69e",
+		    storageBucket: "infinite-games-9c69e.appspot.com",
+		    messagingSenderId: "602022483888",
+		    appId: "1:602022483888:web:f967a6c1cb236ae66ba875",
+		    measurementId: "G-9LE6E1BKZ7"
+		};
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
