@@ -371,37 +371,63 @@ def generate_index_html(deploy_dirs, template_file):
     print(f"Generated index.html in the current directory")
 
 
-
+# Function to capture a snapshot of the index.html page
 async def capture_snapshot(url, save_path):
     browser = await launch(headless=True)
     page = await browser.newPage()
-    await page.goto(url)
+    response = await page.goto(url)
+
+    if response.status == 404:
+        await browser.close()
+        return False
+
     await page.screenshot({'path': save_path})
     await browser.close()
+    return True
 
 # Function to generate a single index.html file in the current directory with snapshots
-async def generate_index_html_with_snapshots(deploy_dirs, template_file):
+async def generate_index_html_with_snapshots(deploy_dirs, template_file, log_file):
     with open(template_file, 'r') as file:
         template_content = file.read()
 
+    # Create an images directory if it doesn't exist
+    images_dir = os.path.join(os.getcwd(), 'images')
+    os.makedirs(images_dir, exist_ok=True)
+
+    base_url = "https://fractastical.github.io/"
     game_content = ''
+    log_entries = []
+    
     for directory in deploy_dirs:
         dir_name = os.path.basename(directory.strip('/'))
-        url = f'file://{os.path.join(directory, "index.html")}'
-        snapshot_path = os.path.join(os.getcwd(), f'{dir_name}.png')
+        url = f'{base_url}{dir_name}/'
+        snapshot_path = os.path.join(images_dir, f'{dir_name}.png')
         
-        # Capture the snapshot
-        await capture_snapshot(url, snapshot_path)
+        # Capture the snapshot and check for 404
+        success = await capture_snapshot(url, snapshot_path)
 
-        # Add a link for each game directory with an icon
-        game_content += f'''
-        <div class="grid-container">
-            <div class="grid-item">
-                <img src="{snapshot_path}" alt="{dir_name}" style="width:50px;height:50px;">
-                <a href="https://fractastical.github.io/{dir_name}/">{dir_name}</a>
+        if success:
+            # Add a link for each game directory with an icon
+            game_content += f'''
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="images/{dir_name}.png" alt="{dir_name}" style="width:50px;height:50px;">
+                    <a href="{url}">{dir_name}</a>
+                </div>
             </div>
-        </div>
-        '''
+            '''
+        else:
+            game_content += f'''
+            <!--
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="images/{dir_name}.png" alt="{dir_name}" style="width:50px;height:50px;">
+                    <a href="{url}">{dir_name}</a>
+                </div>
+            </div>
+            -->
+            '''
+            log_entries.append(f'404 error for {url}')
 
     # Replace the {game_content} placeholder in the template with the generated game content
     index_content = template_content.replace("{game_content}", game_content)
@@ -410,6 +436,11 @@ async def generate_index_html_with_snapshots(deploy_dirs, template_file):
     output_file = os.path.join(os.getcwd(), 'index.html')
     with open(output_file, 'w') as file:
         file.write(index_content)
+
+    # Write the log entries to the log file
+    with open(log_file, 'a') as log:
+        for entry in log_entries:
+            log.write(entry + '\n')
 
     print(f"Generated index.html in the current directory with snapshots")
 
@@ -448,7 +479,7 @@ generate_index_html(deploy_dirs, template_file)
 
 plot_activity(deploy_dirs)
 
-asyncio.get_event_loop().run_until_complete(generate_index_html_with_snapshots(deploy_dirs, template_file))
+asyncio.get_event_loop().run_until_complete(generate_index_html_with_snapshots(deploy_dirs, template_file, "log.txt"))
 
 print(f"JavaScript and CSS files copied and versioned with timestamp {version_timestamp}.")
 print(f"Version file updated.")
