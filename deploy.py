@@ -8,6 +8,7 @@ from datetime import datetime
 import re
 import asyncio
 import json
+import argparse
 
 from pyppeteer import launch
 from PIL import Image
@@ -458,8 +459,7 @@ async def capture_snapshot(url, save_path):
     await browser.close()
     return True
 
-# Function to generate a single index.html file in the current directory with snapshots
-async def generate_index_html_with_snapshots(deploy_dirs, template_file, log_file):
+async def generate_index_html_with_snapshots(deploy_dirs, template_file, log_file, source_dir, build_content):
     # Load or initialize ratings
     ratings = load_ratings(RATINGS_FILE)
     
@@ -472,18 +472,46 @@ async def generate_index_html_with_snapshots(deploy_dirs, template_file, log_fil
     # Save the ratings to the file
     save_ratings(RATINGS_FILE, ratings)
     
-    game_content = await generate_game_content(deploy_dirs, ratings, log_file)
+    # Conditionally generate game content
+    if build_content:
+        game_content = await generate_game_content(deploy_dirs, ratings, log_file)
+    else:
+        game_content = ''
     
     with open(template_file, 'r') as file:
         template_content = file.read()
 
     index_content = template_content.replace("{game_content}", game_content)
 
-    output_file = os.path.join(os.getcwd(), 'index.html')
+    # Always create index.html in the source directory
+    output_file = os.path.join(source_dir, 'index.html')
     with open(output_file, 'w') as file:
         file.write(index_content)
+    print(f"Generated index.html in the source directory with snapshots")
     
-    print(f"Generated index.html in the current directory with snapshots")
+    # Process other directories
+    log_entries = []
+    for directory in deploy_dirs:
+        if directory == source_dir:
+            continue
+        
+        game_content_path = os.path.join(directory, 'game_content.html')
+        if os.path.exists(game_content_path):
+            with open(game_content_path, 'r') as file:
+                additional_content = file.read()
+            
+            index_content_with_merge = template_content.replace("{game_content}", additional_content)
+            output_file = os.path.join(directory, 'index.html')
+            with open(output_file, 'w') as file:
+                file.write(index_content_with_merge)
+            
+            log_entries.append(f"MERGING GAME_CONTENT for {directory}")
+            print(f"Generated index.html with merged game_content in {directory}")
+
+    with open(log_file, 'a') as log:
+        for entry in log_entries:
+            log.write(entry + '\n')
+
 
 
 # Function to deploy files to target directories
@@ -541,6 +569,11 @@ def deploy_files(source_js_dir, source_css_dir, target_dirs, version_file_path):
 
 #         print(f"Generated index.html for {directory}")
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Generate index.html for directories")
+    parser.add_argument("-b", "--build-content", action="store_true", help="Generate game content snapshots")
+    args = parser.parse_args()
+
 # Run the functions
 current_directory = os.getcwd()
 template_file = './index_template.html'  # Replace with the path to your template file
@@ -548,8 +581,9 @@ copy_and_check_files()
 update_version_file(version_file_path)
 deploy_dirs = read_deploy_dirs(deploy_dirs_file)
 
-asyncio.get_event_loop().run_until_complete(generate_index_html_with_snapshots(deploy_dirs, template_file, "log.txt"))
-plot_activity(deploy_dirs)
+asyncio.get_event_loop().run_until_complete(generate_index_html_with_snapshots(deploy_dirs, template_file, log_file, current_directory, args.build_content))
+if args.build_content :
+    plot_activity(deploy_dirs)
 
 print(f"JavaScript and CSS files copied and versioned with timestamp {version_timestamp}.")
 print(f"Version file updated.")

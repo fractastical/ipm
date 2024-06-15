@@ -11,3 +11,5 @@
 /Users/jd/Documents/Github/infinite/infinitespacewar
 /Users/jd/Documents/Github/infinite/infinitememes
 /Users/jd/Documents/Github/infinite/infinitehex
+/Users/jd/Documents/Github/infinite/idl
+/Users/jd/Documents/Github/infinite/deusx
