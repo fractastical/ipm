@@ -9,7 +9,8 @@ import re
 import asyncio
 from pyppeteer import launch
 from PIL import Image
-
+from matplotlib import colormaps
+import numpy as np
 
 # Define paths
 source_dir = './infinitegames'  # Replace with the path to your source directory
@@ -54,28 +55,51 @@ def read_deploy_dirs(file_path):
 
 
 # Function to get commit history for a given repository directory
+# Function to get commit history and lines of code changes for a given repository directory
 def get_commit_history(repo_dir):
     try:
         # Verify if the directory is a valid Git repository
         subprocess.run(["git", "-C", repo_dir, "status"], capture_output=True, check=True, text=True)
         # Get the commit history using Git
         result = subprocess.run(
-            ["git", "-C", repo_dir, "log", "--pretty=format:%cd", "--date=short"],
+            ["git", "-C", repo_dir, "log", "--pretty=format:%H %cd", "--date=short"],
             capture_output=True,
             text=True,
             check=True
         )
-        commit_dates = result.stdout.split('\n')
-        return [datetime.strptime(date, "%Y-%m-%d") for date in commit_dates if date]
+        commits = result.stdout.split('\n')
+        commit_data = []
+        for commit in commits:
+            if commit:
+                commit_hash, commit_date = commit.split(' ', 1)
+                commit_date = datetime.strptime(commit_date, "%Y-%m-%d")
+                # Get lines of code changes for each commit
+                diff_result = subprocess.run(
+                    ["git", "-C", repo_dir, "diff", "--numstat", commit_hash + "^!", commit_hash],
+                    capture_output=True,
+                    text=True,
+                    check=True
+                )
+                added = 0
+                removed = 0
+                for line in diff_result.stdout.split('\n'):
+                    if line:
+                        add, rem, _ = line.split('\t')
+                        if add.isdigit() and rem.isdigit():
+                            added += int(add)
+                            removed += int(rem)
+                commit_data.append((commit_date, added, removed))
+        return commit_data
     except subprocess.CalledProcessError as e:
         print(f"Error processing repository {repo_dir}: {e}")
         return []
 
-
+# Function to plot the activity of each repository over time and save the graph to the images folder
 # Function to plot the activity of each repository over time and save the graph to the images folder
 def plot_activity(deploy_dirs):
     plt.figure(figsize=(14, 8))
-    colors = plt.cm.get_cmap('tab10', len(deploy_dirs) + 1)  # +1 for the local directory
+    cmap = colormaps.get_cmap('tab10')
+    colors = cmap(np.linspace(0, 1, len(deploy_dirs) + 1))  # +1 for the local directory
 
     total_commits = 0
     commits_per_repo = {}
@@ -84,19 +108,34 @@ def plot_activity(deploy_dirs):
     local_dir = os.getcwd()
     all_dirs = deploy_dirs + [local_dir]
 
+    all_commit_data = []
+
     for idx, repo_dir in enumerate(all_dirs):
         dir_name = os.path.basename(repo_dir.strip('/'))
-        commit_dates = get_commit_history(repo_dir)
-        num_commits = len(commit_dates)
-        commits_per_repo[dir_name] = num_commits
-        total_commits += num_commits
-        
-        if commit_dates:
-            dates, counts = zip(*[(date, commit_dates.count(date)) for date in set(commit_dates)])
+        commit_data = get_commit_history(repo_dir)
+        if commit_data:
+            all_commit_data.extend(commit_data)
+            num_commits = len(commit_data)
+            commits_per_repo[dir_name] = num_commits
+            total_commits += num_commits
+
+    for idx, repo_dir in enumerate(all_dirs):
+        dir_name = os.path.basename(repo_dir.strip('/'))
+        commit_data = get_commit_history(repo_dir)
+
+        if commit_data:
+            dates, added_lines, removed_lines = zip(*commit_data)
             # Sort the dates to ensure the line is drawn left to right
-            sorted_dates, sorted_counts = zip(*sorted(zip(dates, counts)))
-            plt.plot(sorted_dates, sorted_counts, label=dir_name, color=colors(idx))
-            plt.scatter(sorted_dates, sorted_counts, color=colors(idx))
+            sorted_dates, sorted_added, sorted_removed = zip(*sorted(zip(dates, added_lines, removed_lines)))
+
+            # Plot the commit points
+            plt.plot(sorted_dates, [i + 1 for i in range(len(sorted_dates))], label=f"{dir_name} commits", color=colors[idx])
+
+            for date, add, rem in zip(sorted_dates, sorted_added, sorted_removed):
+                # Plot the added lines on a logarithmic scale
+                plt.vlines(date, 0, np.log1p(add), color='green', alpha=0.5)
+                # Plot the removed lines on a logarithmic scale
+                plt.vlines(date, 0, -np.log1p(rem), color='red', alpha=0.5)
 
     plt.title("GitHub Repository Activity Over Time")
     plt.xlabel("Date")
