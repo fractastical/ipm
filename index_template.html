@@ -138,6 +138,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script>
+
+        let userId = "";
+    </script>
     <script type="module">
         // Firebase configuration and initialization
 		const firebaseConfig = {
@@ -170,6 +174,7 @@
         auth.onAuthStateChanged(user => {
             if (user) {
                 loadUserData(user.uid);
+                userId = user.uid;
             } else {
                 document.getElementById('user-info').classList.add('hidden');
                 document.getElementById('login-link').classList.remove('hidden');
