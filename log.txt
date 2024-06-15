@@ -38,3 +38,7 @@
 404 error for https://fractastical.github.io/infinitesnake3d/
 404 error for https://fractastical.github.io/infinitepyramidpong/
 404 error for https://fractastical.github.io/infinitehex/
+404 error for https://fractastical.github.io/infinitesnake/
+404 error for https://fractastical.github.io/infinitesnake3d/
+404 error for https://fractastical.github.io/infinitepyramidpong/
+404 error for https://fractastical.github.io/infinitehex/
