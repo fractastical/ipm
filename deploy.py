@@ -9,6 +9,8 @@ import re
 import asyncio
 import json
 import argparse
+import shutil
+import hashlib
 
 from pyppeteer import launch
 from PIL import Image
@@ -33,6 +35,14 @@ current_date = datetime.now()
 # Key variables and functions to check
 key_variables = ['score', 'gameId']
 key_functions = ['startGamingSessionApi', 'handleEndGameOnServer']
+
+# Function to compute the hash of a file
+def compute_file_hash(file_path):
+    hasher = hashlib.md5()
+    with open(file_path, 'rb') as f:
+        buf = f.read()
+        hasher.update(buf)
+    return hasher.hexdigest()
 
 # Function to find external variables referenced in the JS files
 def find_external_vars(js_file_path):
