@@ -339,14 +339,16 @@ def copy_and_check_files():
         shutil.copy2(version_file, target_version_file)
 
 
-def generate_game_index_html(deploy_dirs, template_file):
+# Function to generate a single index.html file in the current directory
+def generate_index_html(deploy_dirs, template_file):
     with open(template_file, 'r') as file:
         template_content = file.read()
 
+    game_content = ''
     for directory in deploy_dirs:
         dir_name = os.path.basename(directory.strip('/'))
-        # Define the game-specific content (this is an example, you can modify as needed)
-        game_content = f'''
+        # Add a link for each game directory
+        game_content += f'''
         <div class="grid-container">
             <div class="grid-item">
                 <a href="https://fractastical.github.io/{dir_name}/">{dir_name}</a>
@@ -354,22 +356,47 @@ def generate_game_index_html(deploy_dirs, template_file):
         </div>
         '''
 
-        # Replace the {game_content} placeholder in the template with the actual game content
-        index_content = template_content.replace("{game_content}", game_content)
+    # Replace the {game_content} placeholder in the template with the generated game content
+    index_content = template_content.replace("{game_content}", game_content)
 
-        # Write the modified content to index.html in the current game directory
-        output_file = os.path.join(directory, 'index.html')
-        with open(output_file, 'w') as file:
-            file.write(index_content)
+    # Write the modified content to index.html in the current directory
+    output_file = os.path.join(os.getcwd(), 'index.html')
+    with open(output_file, 'w') as file:
+        file.write(index_content)
 
-        print(f"Generated index.html for {directory}")
+    print(f"Generated index.html in the current directory")
+
+# def generate_game_index_html(deploy_dirs, template_file):
+#     with open(template_file, 'r') as file:
+#         template_content = file.read()
+
+#     for directory in deploy_dirs:
+#         dir_name = os.path.basename(directory.strip('/'))
+#         # Define the game-specific content (this is an example, you can modify as needed)
+#         game_content = f'''
+#         <div class="grid-container">
+#             <div class="grid-item">
+#                 <a href="https://fractastical.github.io/{dir_name}/">{dir_name}</a>
+#             </div>
+#         </div>
+#         '''
+
+#         # Replace the {game_content} placeholder in the template with the actual game content
+#         index_content = template_content.replace("{game_content}", game_content)
+
+#         # Write the modified content to index.html in the current game directory
+#         output_file = os.path.join(directory, 'index.html')
+#         with open(output_file, 'w') as file:
+#             file.write(index_content)
+
+#         print(f"Generated index.html for {directory}")
 
 # Run the functions
 template_file = './index_template.html'  # Replace with the path to your template file
 copy_and_check_files()
 update_version_file(version_file)
 deploy_dirs = read_deploy_dirs(deploy_dirs_file)
-generate_game_index_html(deploy_dirs, template_file)
+generate_index_html(deploy_dirs, template_file)
 
 plot_activity(deploy_dirs)
 
