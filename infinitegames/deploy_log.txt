@@ -252,3 +252,55 @@ Directory: /Users/jd/Documents/Github/infinite/infinitebreak
 Directory: /Users/jd/Documents/Github/infinite/infinitememes
   Missing variables: score, gameId
   Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitepong
+  Missing variables: score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/nachoblaster3d
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteflap
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitesnake
+  Missing variables: score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteguess
+  Missing variables: score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/metaspacewar
+  Missing variables: gameId
+  Missing functions: handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitepyramidpong
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitebreak
+  Missing functions: handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitememes
+  Missing variables: score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitepong
+  Missing variables: score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/nachoblaster3d
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteflap
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitesnake
+  Missing variables: score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteguess
+  Missing variables: score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitewar
+  Missing variables: gameId
+  Missing functions: handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitepyramidpong
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitebreak
+  Missing functions: handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitememes
+  Missing variables: score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer

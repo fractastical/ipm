@@ -12,3 +12,4 @@
 /Users/jd/Documents/Github/infinite/infinitebreak
 /Users/jd/Documents/Github/infinite/infinitespacewar
 /Users/jd/Documents/Github/infinite/infinitememes
+/Users/jd/Documents/Github/infinite/infinitehex
