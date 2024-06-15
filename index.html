@@ -132,6 +132,91 @@
     <div id="game-section">
             <!-- Game items will be inserted here -->
             
+            <div class="game-item">
+                <img src="images/infinitespacewar.png" alt="infinitespacewar">
+                <a href="https://fractastical.github.io/infinitespacewar/">infinitespacewar (Rating: 9)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/infinitememes.png" alt="infinitememes">
+                <a href="https://fractastical.github.io/infinitememes/">infinitememes (Rating: 7)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/infinitebreak.png" alt="infinitebreak">
+                <a href="https://fractastical.github.io/infinitebreak/">infinitebreak (Rating: 6)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/infinitepong.png" alt="infinitepong">
+                <a href="https://fractastical.github.io/infinitepong/">infinitepong (Rating: 0)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/nachoblaster3d.png" alt="nachoblaster3d">
+                <a href="https://fractastical.github.io/nachoblaster3d/">nachoblaster3d (Rating: 0)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/infiniteflap.png" alt="infiniteflap">
+                <a href="https://fractastical.github.io/infiniteflap/">infiniteflap (Rating: 0)</a>
+            </div>
+            
+            <!--
+            <div class="game-item">
+                <img src="images/infinitesnake.png" alt="infinitesnake">
+                <a href="https://fractastical.github.io/infinitesnake/">infinitesnake (Rating: 0)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/infinitesnake3d.png" alt="infinitesnake3d">
+                <a href="https://fractastical.github.io/infinitesnake3d/">infinitesnake3d (Rating: 0)</a>
+            </div>
+            -->
+            
+            <div class="game-item">
+                <img src="images/infiniteguess.png" alt="infiniteguess">
+                <a href="https://fractastical.github.io/infiniteguess/">infiniteguess (Rating: 0)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/infiniteballoons.png" alt="infiniteballoons">
+                <a href="https://fractastical.github.io/infiniteballoons/">infiniteballoons (Rating: 0)</a>
+            </div>
+            
+            <div class="game-item">
+                <img src="images/infinitewar.png" alt="infinitewar">
+                <a href="https://fractastical.github.io/infinitewar/">infinitewar (Rating: 0)</a>
+            </div>
+            
+            <!--
+            <div class="game-item">
+                <img src="images/infinitepyramidpong.png" alt="infinitepyramidpong">
+                <a href="https://fractastical.github.io/infinitepyramidpong/">infinitepyramidpong (Rating: 0)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/infinitehex.png" alt="infinitehex">
+                <a href="https://fractastical.github.io/infinitehex/">infinitehex (Rating: 0)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/idl.png" alt="idl">
+                <a href="https://fractastical.github.io/idl/">idl (Rating: 0)</a>
+            </div>
+            -->
+            
+            <div class="game-item">
+                <img src="images/deusx.png" alt="deusx">
+                <a href="https://fractastical.github.io/deusx/">deusx (Rating: 0)</a>
+            </div>
+            
     </div>
 
     <!-- Firebase SDK -->
@@ -204,7 +289,7 @@ const db = getFirestore(app);
                     document.getElementById('auth').classList.add('hidden');
                     document.getElementById('game-section').classList.remove('hidden');
                     console.log("pizza");
-                    saveUserData(userId);
+                    // saveUserData(userId);
 
                 } else {
                     console.log("No such document!");
@@ -225,6 +310,8 @@ const db = getFirestore(app);
         await updateDoc(userDocRef, { deusex_score: score });
     }
 
+    window.saveUserScore = saveUserScore;
+
     async function saveUserData(userId) {
         const userData = {
             infinitescore: 0,
@@ -233,6 +320,7 @@ const db = getFirestore(app);
         await updateDoc(doc(db, 'users', userId), userData);
     }
 
+    window.loadLeaderboard = loadLeaderboard;
 
     async function loadLeaderboard() {
         const usersSnapshot = await getDocs(collection(db, 'users'));

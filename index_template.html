@@ -204,7 +204,7 @@ const db = getFirestore(app);
                     document.getElementById('auth').classList.add('hidden');
                     document.getElementById('game-section').classList.remove('hidden');
                     console.log("pizza");
-                    saveUserData(userId);
+                    // saveUserData(userId);
 
                 } else {
                     console.log("No such document!");
@@ -225,6 +225,8 @@ const db = getFirestore(app);
         await updateDoc(userDocRef, { deusex_score: score });
     }
 
+    window.saveUserScore = saveUserScore;
+
     async function saveUserData(userId) {
         const userData = {
             infinitescore: 0,
@@ -233,6 +235,7 @@ const db = getFirestore(app);
         await updateDoc(doc(db, 'users', userId), userData);
     }
 
+    window.loadLeaderboard = loadLeaderboard;
 
     async function loadLeaderboard() {
         const usersSnapshot = await getDocs(collection(db, 'users'));
