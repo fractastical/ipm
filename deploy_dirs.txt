@@ -4,6 +4,7 @@
 /Users/jd/Documents/Github/infinite/infinitesnake
 /Users/jd/Documents/Github/infinite/infinitesnake3d
 /Users/jd/Documents/Github/infinite/infiniteguess
+/Users/jd/Documents/Github/infinite/nachoracer
 /Users/jd/Documents/Github/infinite/infiniteballoons
 /Users/jd/Documents/Github/infinite/infinitewar
 /Users/jd/Documents/Github/infinite/infinitepyramidpong
