@@ -4,7 +4,7 @@
 /Users/jd/Documents/Github/infinite/infinitesnake
 /Users/jd/Documents/Github/infinite/infinitesnake3d
 /Users/jd/Documents/Github/infinite/infiniteguess
-/Users/jd/Documents/Github/infinite/nachoracer
+/Users/jd/Documents/Github/infinite/infiniteracer
 /Users/jd/Documents/Github/infinite/infiniteballoons
 /Users/jd/Documents/Github/infinite/infinitewar
 /Users/jd/Documents/Github/infinite/infinitepyramidpong
@@ -14,3 +14,4 @@
 /Users/jd/Documents/Github/infinite/infinitehex
 /Users/jd/Documents/Github/infinite/idl
 /Users/jd/Documents/Github/infinite/deusx
+/Users/jd/Documents/Github/infinite/appleseed

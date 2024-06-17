@@ -120,6 +120,8 @@
     <div class="top-right" id="login-link">
         <a href="#" id="login-toggle">Login</a>
     </div>
+    <div id="leaderboard-container">
+    </div>
     <div id="auth" class="hidden">
         <h1>Infinite Games</h1>
         <h2>Login</h2>
@@ -134,22 +136,44 @@
             
             <div class="game-item">
                 <img src="images/infinitespacewar.png" alt="infinitespacewar">
-                <a href="https://fractastical.github.io/infinitespacewar/">infinitespacewar (Rating: 9)</a>
+                <a href="https://fractastical.github.io/infinitespacewar/">infinitespacewar (Rating: 7.4)</a>
             </div>
             
             <div class="game-item">
                 <img src="images/infinitememes.png" alt="infinitememes">
-                <a href="https://fractastical.github.io/infinitememes/">infinitememes (Rating: 7)</a>
+                <a href="https://fractastical.github.io/infinitememes/">infinitememes (Rating: 7.2)</a>
             </div>
             
             <div class="game-item">
+                <img src="images/appleseed.png" alt="appleseed">
+                <a href="https://fractastical.github.io/appleseed/">appleseed (Rating: 7.1)</a>
+            </div>
+            
+
+            <div class="game-item">
+                <img src="images/infiniteballoons.png" alt="infiniteballoons">
+                <a href="https://fractastical.github.io/infiniteballoons/">infiniteballoons (Rating: 4.25)</a>
+            </div>
+
+<!--             <div class="game-item">
                 <img src="images/infinitebreak.png" alt="infinitebreak">
                 <a href="https://fractastical.github.io/infinitebreak/">infinitebreak (Rating: 6)</a>
             </div>
             
             <div class="game-item">
+                <img src="images/infinitewar.png" alt="infinitewar">
+                <a href="https://fractastical.github.io/infinitewar/">infinitewar (Rating: 5.81)</a>
+            </div>
+            
+            
+            <div class="game-item">
+                <img src="images/infiniteguess.png" alt="infiniteguess">
+                <a href="https://fractastical.github.io/infiniteguess/">infiniteguess (Rating: 2.75)</a>
+            </div>
+            
+            <div class="game-item">
                 <img src="images/infinitepong.png" alt="infinitepong">
-                <a href="https://fractastical.github.io/infinitepong/">infinitepong (Rating: 0)</a>
+                <a href="https://fractastical.github.io/infinitepong/">infinitepong (Rating: 1.37)</a>
             </div>
             
             <div class="game-item">
@@ -162,7 +186,7 @@
                 <a href="https://fractastical.github.io/infiniteflap/">infiniteflap (Rating: 0)</a>
             </div>
             
-            <!--
+ -->            <!--
             <div class="game-item">
                 <img src="images/infinitesnake.png" alt="infinitesnake">
                 <a href="https://fractastical.github.io/infinitesnake/">infinitesnake (Rating: 0)</a>
@@ -176,21 +200,11 @@
             </div>
             -->
             
-            <div class="game-item">
-                <img src="images/infiniteguess.png" alt="infiniteguess">
-                <a href="https://fractastical.github.io/infiniteguess/">infiniteguess (Rating: 0)</a>
+<!--             <div class="game-item">
+                <img src="images/infiniteracer.png" alt="infiniteracer">
+                <a href="https://fractastical.github.io/infiniteracer/">infiniteracer (Rating: 0)</a>
             </div>
-            
-            <div class="game-item">
-                <img src="images/infiniteballoons.png" alt="infiniteballoons">
-                <a href="https://fractastical.github.io/infiniteballoons/">infiniteballoons (Rating: 0)</a>
-            </div>
-            
-            <div class="game-item">
-                <img src="images/infinitewar.png" alt="infinitewar">
-                <a href="https://fractastical.github.io/infinitewar/">infinitewar (Rating: 0)</a>
-            </div>
-            
+ -->            
             <!--
             <div class="game-item">
                 <img src="images/infinitepyramidpong.png" alt="infinitepyramidpong">
@@ -242,8 +256,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, getDocs, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // Firebase configuration and initialization
 const app = initializeApp(firebaseConfig);
@@ -304,49 +317,137 @@ const db = getFirestore(app);
             document.getElementById('auth').classList.toggle('hidden');
         });
 
-    async function saveUserScore(userId, score) {
-        const userDocRef = doc(db, 'users', userId);
+    async function saveUserScore(userId, gameName, score) {
+      const db = getFirestore();
+      const userDocRef = doc(db, 'users', userId);
+      const loginTime = new Date();
+      const sessionLength = loginTime - gameStartTime;
 
-        await updateDoc(userDocRef, { deusex_score: score });
+
+      if (typeof score === 'undefined' || typeof sessionLength === 'undefined') {
+        console.error('Invalid score or session length');
+        return;
+      }
+
+      // Save the score, session length, and login time for the specific game
+      const gameData = {
+        [`games.${gameName}.scores`]: arrayUnion({
+          score: score,
+          sessionLength: sessionLength,
+          loginTime: loginTime
+        })
+      };
+
+      await updateDoc(userDocRef, gameData);
     }
 
     window.saveUserScore = saveUserScore;
 
-    async function saveUserData(userId) {
-        const userData = {
-            infinitescore: 0,
-            pizza: "pizza"
-        };
-        await updateDoc(doc(db, 'users', userId), userData);
+    // Function to save initial user data
+    async function saveUserData(userId, gameName) {
+      const db = getFirestore();
+      const userDocRef = doc(db, 'users', userId);
+      const userData = {
+        [`games.${gameName}`]: {
+          scores: [],
+          lastLogin: new Date()
+        }
+      };
+      await setDoc(userDocRef, userData, { merge: true });
+    }
+
+    window.saveUserData = saveUserData;
+
+    // Function to load leaderboard for a specific game
+    async function loadLeaderboard(gameName) {
+      const db = getFirestore();
+      const usersSnapshot = await getDocs(collection(db, 'users'));
+      const users = [];
+
+      usersSnapshot.forEach(doc => {
+        const userData = doc.data();
+        const gameScores = userData.games?.[gameName]?.scores || [];
+        const highestScore = gameScores.reduce((max, session) => Math.max(max, session.score), 0);
+
+        users.push({
+          nickname: userData.nickname || 'Unnamed',
+          score: highestScore
+        });
+      });
+
+      users.sort((a, b) => b.score - a.score);
+      const topUsers = users.slice(0, 10);
+
+      const leaderboard = document.createElement('div');
+      // leaderboard.innerHTML = `<h2>Leaderboard for ${gameName}</h2>`;
+      topUsers.forEach((user, index) => {
+        const userDiv = document.createElement('div');
+        userDiv.innerText = `${index + 1}. ${user.nickname}: ${user.score} points`;
+        leaderboard.appendChild(userDiv);
+      });
+
+      document.getElementById('leaderboard-container').appendChild(leaderboard);
     }
 
     window.loadLeaderboard = loadLeaderboard;
 
-    async function loadLeaderboard() {
-        const usersSnapshot = await getDocs(collection(db, 'users'));
-        const users = [];
-
-        usersSnapshot.forEach(doc => {
-            const userData = doc.data();
-            users.push({
-                nickname: userData.nickname || 'Unnamed',
-                score: userData.deusex_score || 0
-            });
-        });
-
-        users.sort((a, b) => b.score - a.score);
-        const topUsers = users.slice(0, 10);
-
-        const leaderboard = document.createElement('div');
-        leaderboard.innerHTML = `<h2>Leaderboard</h2>`;
-        topUsers.forEach((user, index) => {
-            const userDiv = document.createElement('div');
-            userDiv.innerText = `${index + 1}. ${user.nickname}: ${user.score} points`;
-            leaderboard.appendChild(userDiv);
-        });
-
-        document.getElementById('result').appendChild(leaderboard);
+    // Function to calculate session length (to be implemented as needed)
+    function calculateSessionLength() {
+      // Placeholder implementation
+      return Math.floor(Math.random() * 1000); // Replace with actual session length calculation
     }
+
+    // Function to save achievements
+    async function saveAchievements() {
+      const Achievements = JSON.parse(localStorage.getItem('achievements')) || {};
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get('userId');
+      if (!userId) return;
+
+      const db = getFirestore();
+      const userDocRef = doc(db, 'users', userId);
+
+      // Update the achievements in Firestore
+      const achievementsData = {
+        achievements: Achievements
+      };
+
+      await updateDoc(userDocRef, achievementsData);
+      await setAchievementsFromApi(Achievements); // Implement this function as needed
+    }
+
+    window.saveAchievements = saveAchievements;
+
+    // Function to load achievements from Firebase or localStorage
+    async function loadAchievements() {
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get('userId');
+      const db = getFirestore();
+      let Achievements = {};
+
+      if (userId) {
+        const userDocRef = doc(db, 'users', userId);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists() && userDoc.data().achievements) {
+          Achievements = userDoc.data().achievements;
+        } else {
+          const savedAchievements = localStorage.getItem('achievements');
+          if (savedAchievements) {
+            Achievements = JSON.parse(savedAchievements);
+          }
+        }
+      } else {
+        const savedAchievements = localStorage.getItem('achievements');
+        if (savedAchievements) {
+          Achievements = JSON.parse(savedAchievements);
+        }
+      }
+
+      return Achievements;
+    }
+
+    window.loadAchievements = loadAchievements;
 
     </script>
 </body>
