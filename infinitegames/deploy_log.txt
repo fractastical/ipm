@@ -3668,3 +3668,87 @@ Directory: /Users/jd/Documents/Github/infinite/deusx
 404 error for https://fractastical.github.io/infinitehex/
 404 error for https://fractastical.github.io/idl/
 MERGING GAME_CONTENT for /Users/jd/Documents/Github/infinite/deusx
+Directory: /Users/jd/Documents/Github/infinite/infinitepong
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/nachoblaster3d
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteflap
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitesnake
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitesnake3d
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteguess
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteballoons
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitewar
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitepyramidpong
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitebreak
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitespacewar
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitememes
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitehex
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/deusx
+  Missing variables: gameId, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+MERGING GAME_CONTENT for /Users/jd/Documents/Github/infinite/deusx
+Directory: /Users/jd/Documents/Github/infinite/infinitepong
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/nachoblaster3d
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteflap
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitesnake
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitesnake3d
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infiniteguess
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitewar
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitepyramidpong
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitebreak
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitespacewar
+  Missing variables: gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitememes
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/infinitehex
+  Missing variables: gameId, score, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+Directory: /Users/jd/Documents/Github/infinite/deusx
+  Missing variables: gameId, gameId
+  Missing functions: startGamingSessionApi, handleEndGameOnServer, startGamingSessionApi, handleEndGameOnServer
+MERGING GAME_CONTENT for /Users/jd/Documents/Github/infinite/infiniteballoons
+MERGING GAME_CONTENT for /Users/jd/Documents/Github/infinite/deusx
