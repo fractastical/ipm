@@ -109,6 +109,42 @@
         button:hover {
             background: #00cc00;
         }
+
+        /* Styles for the level-up modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: #111;
+    border: 3px solid #4e15ac;
+    color: #0f0;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.modal-content button {
+    background-color: #222;
+    color: #0f0;
+    border: 2px solid #4e15ac;
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+}
+
+.modal-content button:hover {
+    background-color: #333;
+}
+
     </style>
 </head>
 <body>
@@ -124,7 +160,31 @@
 
     <div id="leaderboard-container">
     </div>
-    <div id="auth" class="hidden">
+
+
+  <div id="loginPopup" class="modal">
+    <div class="modal-content">
+        <h1>Infinite Games</h1>
+
+          <form id="signup-form">
+            <h2>Sign Up</h2>
+            <input type="text" id="signup-nickname" placeholder="Nickname" required>
+            <input type="email" id="signup-email" placeholder="Email" required>
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+
+      <h2>Login</h2>
+      <form id="login-form">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+
+<!--     <div id="auth" class="hidden">
         <h1>Infinite Games</h1>
         
         <form id="signup-form">
@@ -142,7 +202,9 @@
             <input type="password" id="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
-    </div>
+ -->
+
+
     <div id="game-section">
             <!-- Game items will be inserted here -->
             
@@ -278,6 +340,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+    const loginPopup = document.getElementById('loginPopup');
 
 const logoutButton = document.getElementById('logout-button');
 
@@ -318,7 +381,9 @@ const logoutButton = document.getElementById('logout-button');
             // await loadUserData(userId);
             // await savePortfolioValueHistory();
             loginForm.reset();
-            document.getElementById('auth').classList.toggle('hidden');
+            // document.getElementById('auth').classList.toggle('hidden');
+            loginPopup.style.display = 'none';
+
             // await loadLeaderboard();
         } catch (error) {
             console.error("Error logging in:", error.message);
@@ -336,7 +401,9 @@ const logoutButton = document.getElementById('logout-button');
             userId = cred.user.uid;
             await saveInitialData(userId, email, nickname);
             signupForm.reset();
-            document.getElementById('auth').classList.toggle('hidden');
+            // document.getElementById('auth').classList.toggle('hidden');
+            loginPopup.style.display = 'none';
+
         } catch (error) {
             console.error("Error creating user:", error.message);
         }
@@ -391,7 +458,9 @@ const logoutButton = document.getElementById('logout-button');
 
         document.getElementById('login-toggle').addEventListener('click', function(event) {
             event.preventDefault();
-            document.getElementById('auth').classList.toggle('hidden');
+            loginPopup.style.display = 'block';
+
+            // document.getElementById('auth').classList.toggle('hidden');
         });
 
     async function saveUserScore(userId, gameName, score) {
