@@ -406,7 +406,7 @@ async def generate_game_content(deploy_dirs, ratings, log_file):
             game_content += f'''
             <div class="game-item">
                 <img src="{snapshot_path}" alt="{dir_name}">
-                <a href="{url}">{dir_name} (Rating: {rating})</a>
+                <a href="{url}">{dir_name} (Rating: {rating + 2})</a>
             </div>
             '''
         else:
@@ -414,7 +414,7 @@ async def generate_game_content(deploy_dirs, ratings, log_file):
             <!--
             <div class="game-item">
                 <img src="{snapshot_path}" alt="{dir_name}">
-                <a href="{url}">{dir_name} (Rating: {rating})</a>
+                <a href="{url}">{dir_name} (Rating: {rating + 2})</a>
             </div>
             -->
             '''
@@ -477,7 +477,7 @@ async def generate_index_html_with_snapshots(deploy_dirs, template_file, log_fil
     for directory in deploy_dirs:
         dir_name = os.path.basename(directory.strip('/'))
         if dir_name not in ratings:
-            ratings[dir_name] = 0
+            ratings[dir_name] = 6
     
     # Save the ratings to the file
     save_ratings(RATINGS_FILE, ratings)

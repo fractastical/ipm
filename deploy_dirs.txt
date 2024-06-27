@@ -9,9 +9,16 @@
 /Users/jd/Documents/Github/infinite/infinitewar
 /Users/jd/Documents/Github/infinite/infinitepyramidpong
 /Users/jd/Documents/Github/infinite/infinitebreak
-/Users/jd/Documents/Github/infinite/infinitespacewar
+/Users/jd/Documents/Github/infinite/infiniteasteroids
 /Users/jd/Documents/Github/infinite/infinitememes
 /Users/jd/Documents/Github/infinite/infinitehex
 /Users/jd/Documents/Github/infinite/idl
 /Users/jd/Documents/Github/infinite/deusx
 /Users/jd/Documents/Github/infinite/appleseed
+/Users/jd/Documents/Github/infinite/iimprove
+/Users/jd/Documents/Github/infinite/infinitemissiles
+/Users/jd/Documents/Github/infinite/trades
+/Users/jd/Documents/Github/infinite/makeme8bit
+/Users/jd/Documents/Github/infinite/trades
+/Users/jd/Documents/Github/infinite/8bitwaves
+/Users/jd/Documents/Github/infinite/deeperdating
