@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Games</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -109,202 +111,178 @@
         button:hover {
             background: #00cc00;
         }
-
-        /* Styles for the level-up modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 100;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    max-width: 400px;
-    background-color: #111;
-    border: 3px solid #4e15ac;
-    color: #0f0;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-    font-family: 'Press Start 2P', cursive;
-}
-
-.modal-content button {
-    background-color: #222;
-    color: #0f0;
-    border: 2px solid #4e15ac;
-    padding: 10px;
-    margin: 10px 0;
-    width: 100%;
-    cursor: pointer;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 16px;
-}
-
-.modal-content button:hover {
-    background-color: #333;
-}
-
     </style>
 </head>
 <body>
     <div class="top-right" id="user-info" class="hidden">
         <span id="user-nickname"></span> | Coins: <span id="user-coins"></span>
-        <button id="logout-button">Logout</button>
-
     </div>
     <div class="top-right" id="login-link">
         <a href="#" id="login-toggle">Login</a>
-
     </div>
-
     <div id="leaderboard-container">
     </div>
-
-
-  <div id="loginPopup" class="modal">
-    <div class="modal-content">
+    <div id="auth" class="hidden">
         <h1>Infinite Games</h1>
-
-          <form id="signup-form">
-            <h2>Sign Up</h2>
-            <input type="text" id="signup-nickname" placeholder="Nickname" required>
-            <input type="email" id="signup-email" placeholder="Email" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
-            <button type="submit">Sign Up</button>
-        </form>
-
-      <h2>Login</h2>
-      <form id="login-form">
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </div>
-
-
-<!--     <div id="auth" class="hidden">
-        <h1>Infinite Games</h1>
-        
-        <form id="signup-form">
-            <h2>Sign Up</h2>
-            <input type="text" id="signup-nickname" placeholder="Nickname" required>
-            <input type="email" id="signup-email" placeholder="Email" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
-            <button type="submit">Sign Up</button>
-        </form>
-
+        <h2>Login</h2>
         <form id="login-form">
-            <h2>Login</h2>
-
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
- -->
-
-
+    </div>
     <div id="game-section">
             <!-- Game items will be inserted here -->
             
             <div class="game-item">
-                <img src="images/infinitespacewar.png" alt="infinitespacewar">
-                <a href="https://fractastical.github.io/infinitespacewar/">infinitespacewar </a>
+                <img src="images/infiniteasteroids.png" alt="infiniteasteroids">
+                <a href="https://fractastical.github.io/infiniteasteroids/">infiniteasteroids (Rating: 9.4)</a>
             </div>
-
-            <div class="game-item">
-                <img src="images/infinitebreak.png" alt="infinitebreak">
-                <a href="https://fractastical.github.io/infinitebreak/">infinitebreak </a>
-            </div>
-
+            
             <div class="game-item">
                 <img src="images/infinitememes.png" alt="infinitememes">
-                <a href="https://fractastical.github.io/infinitememes/">infinitememes </a>
+                <a href="https://fractastical.github.io/infinitememes/">infinitememes (Rating: 9.2)</a>
             </div>
             
             <div class="game-item">
                 <img src="images/appleseed.png" alt="appleseed">
-                <a href="https://fractastical.github.io/appleseed/">appleseed</a>
+                <a href="https://fractastical.github.io/appleseed/">appleseed (Rating: 9.1)</a>
             </div>
             
-
             <div class="game-item">
-                <img src="images/infiniteballoons.png" alt="infiniteballoons">
-                <a href="https://fractastical.github.io/infiniteballoons/">infiniteballoons</a>
+                <img src="images/infinitebreak.png" alt="infinitebreak">
+                <a href="https://fractastical.github.io/infinitebreak/">infinitebreak (Rating: 8.3)</a>
             </div>
-
-<!--             
+            
+            <!--
+            <div class="game-item">
+                <img src="images/iimprove.png" alt="iimprove">
+                <a href="https://fractastical.github.io/iimprove/">iimprove (Rating: 8)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/infinitemissiles.png" alt="infinitemissiles">
+                <a href="https://fractastical.github.io/infinitemissiles/">infinitemissiles (Rating: 8)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/trades.png" alt="trades">
+                <a href="https://fractastical.github.io/trades/">trades (Rating: 8)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/makeme8bit.png" alt="makeme8bit">
+                <a href="https://fractastical.github.io/makeme8bit/">makeme8bit (Rating: 8)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/trades.png" alt="trades">
+                <a href="https://fractastical.github.io/trades/">trades (Rating: 8)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/8bitwaves.png" alt="8bitwaves">
+                <a href="https://fractastical.github.io/8bitwaves/">8bitwaves (Rating: 8)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/deeperdating.png" alt="deeperdating">
+                <a href="https://fractastical.github.io/deeperdating/">deeperdating (Rating: 8)</a>
+            </div>
+            -->
+            
+            <!--
+            <div class="game-item">
+                <img src="images/infinitewumpus.png" alt="infinitewumpus">
+                <a href="https://fractastical.github.io/infinitewumpus/">infinitewumpus (Rating: 8)</a>
+            </div>
+            -->
             
             <div class="game-item">
                 <img src="images/infinitewar.png" alt="infinitewar">
-                <a href="https://fractastical.github.io/infinitewar/">infinitewar (Rating: 5.81)</a>
+                <a href="https://fractastical.github.io/infinitewar/">infinitewar (Rating: 7.81)</a>
             </div>
             
+            <div class="game-item">
+                <img src="images/infiniteballoons.png" alt="infiniteballoons">
+                <a href="https://fractastical.github.io/infiniteballoons/">infiniteballoons (Rating: 6.25)</a>
+            </div>
             
             <div class="game-item">
                 <img src="images/infiniteguess.png" alt="infiniteguess">
-                <a href="https://fractastical.github.io/infiniteguess/">infiniteguess (Rating: 2.75)</a>
+                <a href="https://fractastical.github.io/infiniteguess/">infiniteguess (Rating: 4.75)</a>
             </div>
             
             <div class="game-item">
                 <img src="images/infinitepong.png" alt="infinitepong">
-                <a href="https://fractastical.github.io/infinitepong/">infinitepong (Rating: 1.37)</a>
+                <a href="https://fractastical.github.io/infinitepong/">infinitepong (Rating: 3.37)</a>
             </div>
             
             <div class="game-item">
                 <img src="images/nachoblaster3d.png" alt="nachoblaster3d">
-                <a href="https://fractastical.github.io/nachoblaster3d/">nachoblaster3d (Rating: 0)</a>
+                <a href="https://fractastical.github.io/nachoblaster3d/">nachoblaster3d (Rating: 2)</a>
             </div>
             
             <div class="game-item">
                 <img src="images/infiniteflap.png" alt="infiniteflap">
-                <a href="https://fractastical.github.io/infiniteflap/">infiniteflap (Rating: 0)</a>
+                <a href="https://fractastical.github.io/infiniteflap/">infiniteflap (Rating: 2)</a>
             </div>
             
- -->            <!--
+            <!--
             <div class="game-item">
                 <img src="images/infinitesnake.png" alt="infinitesnake">
-                <a href="https://fractastical.github.io/infinitesnake/">infinitesnake (Rating: 0)</a>
+                <a href="https://fractastical.github.io/infinitesnake/">infinitesnake (Rating: 2)</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/infinitesnake3d.png" alt="infinitesnake3d">
-                <a href="https://fractastical.github.io/infinitesnake3d/">infinitesnake3d (Rating: 0)</a>
+                <a href="https://fractastical.github.io/infinitesnake3d/">infinitesnake3d (Rating: 2)</a>
             </div>
             -->
             
-<!--             <div class="game-item">
+            <div class="game-item">
                 <img src="images/infiniteracer.png" alt="infiniteracer">
-                <a href="https://fractastical.github.io/infiniteracer/">infiniteracer (Rating: 0)</a>
+                <a href="https://fractastical.github.io/infiniteracer/">infiniteracer (Rating: 2)</a>
             </div>
- -->            
+            
             <!--
             <div class="game-item">
                 <img src="images/infinitepyramidpong.png" alt="infinitepyramidpong">
-                <a href="https://fractastical.github.io/infinitepyramidpong/">infinitepyramidpong (Rating: 0)</a>
+                <a href="https://fractastical.github.io/infinitepyramidpong/">infinitepyramidpong (Rating: 2)</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/infinitehex.png" alt="infinitehex">
-                <a href="https://fractastical.github.io/infinitehex/">infinitehex (Rating: 0)</a>
+                <a href="https://fractastical.github.io/infinitehex/">infinitehex (Rating: 2)</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/idl.png" alt="idl">
-                <a href="https://fractastical.github.io/idl/">idl (Rating: 0)</a>
+                <a href="https://fractastical.github.io/idl/">idl (Rating: 2)</a>
             </div>
             -->
             
             <div class="game-item">
                 <img src="images/deusx.png" alt="deusx">
-                <a href="https://fractastical.github.io/deusx/">deusx </a>
+                <a href="https://fractastical.github.io/deusx/">deusx (Rating: 2)</a>
             </div>
             
     </div>
@@ -340,87 +318,19 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-    const loginPopup = document.getElementById('loginPopup');
-
-const logoutButton = document.getElementById('logout-button');
-
-    logoutButton.addEventListener('click', async () => {
-        try {
-            await signOut(auth);
-            document.getElementById('auth').classList.toggle('hidden');
-        } catch (error) {
-            console.error("Error signing out:", error.message);
-        }
-    });
-
-        // document.getElementById('login-form').addEventListener('submit', function(event) {
-        //     event.preventDefault();
-        //     const email = document.getElementById('email').value;
-        //     const password = document.getElementById('password').value;
-        //     auth.signInWithEmailAndPassword(email, password)
-        //         .then(userCredential => {
-        //             const user = userCredential.user;
-        //             loadUserData(user.uid);
-        //         })
-        //         .catch(error => {
-        //             console.error("Error signing in:", error.message);
-        //         });
-        // });
-
-       let loginForm =document.getElementById('login-form');
-       const signupForm = document.getElementById('signup-form');
-
-        loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = loginForm.elements['email'].value;
-        const password = loginForm.elements['password'].value;
-        try {
-            const cred = await signInWithEmailAndPassword(auth, email, password);
-            userId = cred.user.uid;
-            // await loadCoinPrices();
-            // await loadUserData(userId);
-            // await savePortfolioValueHistory();
-            loginForm.reset();
-            // document.getElementById('auth').classList.toggle('hidden');
-            loginPopup.style.display = 'none';
-
-            // await loadLeaderboard();
-        } catch (error) {
-            console.error("Error logging in:", error.message);
-        }
-    });
-
-
-    signupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = signupForm['signup-email'].value;
-        const password = signupForm['signup-password'].value;
-        const nickname = signupForm['signup-nickname'].value;
-        try {
-            const cred = await createUserWithEmailAndPassword(auth, email, password);
-            userId = cred.user.uid;
-            await saveInitialData(userId, email, nickname);
-            signupForm.reset();
-            // document.getElementById('auth').classList.toggle('hidden');
-            loginPopup.style.display = 'none';
-
-        } catch (error) {
-            console.error("Error creating user:", error.message);
-        }
-    });
-
-
-    async function saveInitialData(userId, email, nickname) {
-        const initialData = {
-            email: email,
-            nickname: nickname,
-            coins: 100,
-            portfolio: {},
-            portfolioHistory: []
-        };
-        await setDoc(doc(db, 'users', userId), initialData);
-    }
-
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            auth.signInWithEmailAndPassword(email, password)
+                .then(userCredential => {
+                    const user = userCredential.user;
+                    loadUserData(user.uid);
+                })
+                .catch(error => {
+                    console.error("Error signing in:", error.message);
+                });
+        });
 
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -458,9 +368,7 @@ const logoutButton = document.getElementById('logout-button');
 
         document.getElementById('login-toggle').addEventListener('click', function(event) {
             event.preventDefault();
-            loginPopup.style.display = 'block';
-
-            // document.getElementById('auth').classList.toggle('hidden');
+            document.getElementById('auth').classList.toggle('hidden');
         });
 
     async function saveUserScore(userId, gameName, score) {

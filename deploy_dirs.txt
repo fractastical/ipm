@@ -22,3 +22,4 @@
 /Users/jd/Documents/Github/infinite/trades
 /Users/jd/Documents/Github/infinite/8bitwaves
 /Users/jd/Documents/Github/infinite/deeperdating
+/Users/jd/Documents/Github/infinite/infinitewumpus
