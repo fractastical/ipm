@@ -22,7 +22,7 @@ A package manager for code generation that allows you to utilize modular program
 
 **8bit sound** - Similar concept for sound generation including custom composed sound trakcs
 
-#Architecture 
+# Architecture 
 
 <img width="811" alt="Screenshot 2024-06-28 at 14 53 48" src="https://github.com/fractastical/ipm/assets/589191/84523954-296b-4c96-bbc9-f4a70b186ea4">
 
@@ -30,6 +30,11 @@ A package manager for code generation that allows you to utilize modular program
 # Goals 
 
 Infinite extensible play probably with one core game that has a dynamic modding community and ability to easly port game logic between different game engines.
+
+# Under development 
+
+- Currently "push" based (i.e. code is packaged and pushed. Should also be a pull version with better versionoing so that anyone can integrate this code snippets)
+- Coin / web3 logic
 
 
 Other games that are not currently included here:  Hunt the Golem, Zeus
