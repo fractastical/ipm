@@ -3,7 +3,7 @@
 A package manager for code generation that allows you to utilize modular programming to mix and match elements from different code bases. Used as the backend for infinite games. 
 
 
-#Features
+# Features
 
 - takes a list of directories and deploys common libraries
 - libraries handle user login, leaderboard, and coin logic
@@ -14,7 +14,7 @@ A package manager for code generation that allows you to utilize modular program
 
 ![Infinite Game Activity](/images/commit_activity.png)
 
-#Auxillary Libraries
+# Auxillary Libraries
 
 **Text-to-3d toolchain** - takes text and generates glb files that can be integrated
 
@@ -27,7 +27,7 @@ A package manager for code generation that allows you to utilize modular program
 <img width="811" alt="Screenshot 2024-06-28 at 14 53 48" src="https://github.com/fractastical/ipm/assets/589191/84523954-296b-4c96-bbc9-f4a70b186ea4">
 
 
-#Goals 
+# Goals 
 
 Infinite extensible play probably with one core game that has a dynamic modding community and ability to easly port game logic between different game engines.
 
