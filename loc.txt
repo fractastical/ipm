@@ -1,0 +1,27 @@
+timestamp:
+
+HTML: 167112 lines of code
+Text only: 51092 lines of code
+JavaScript: 1428904 lines of code
+CSS: 63967 lines of code
+Markdown: 79554 lines of code
+Visual Prolog: 150 lines of code
+JSON: 44446 lines of code
+TypeScript: 617627 lines of code
+YAML: 1788 lines of code
+AppleScript: 95 lines of code
+Protocol Buffer: 1022 lines of code
+Makefile: 534 lines of code
+Nix: 20 lines of code
+C: 7254 lines of code
+INI: 54 lines of code
+C++: 3797 lines of code
+Diff: 604 lines of code
+Bash: 79 lines of code
+NSIS: 3122 lines of code
+XML: 254 lines of code
+Smarty: 20 lines of code
+CoffeeScript: 426 lines of code
+BNF: 48 lines of code
+Singularity: 534 lines of code
+Python: 6806 lines of code

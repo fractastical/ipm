@@ -23,3 +23,4 @@
 /Users/jd/Documents/Github/infinite/8bitwaves
 /Users/jd/Documents/Github/infinite/deeperdating
 /Users/jd/Documents/Github/infinite/infinitewumpus
+/Users/jd/Documents/Github/infinite/solarpunk

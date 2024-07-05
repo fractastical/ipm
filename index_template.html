@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Infinite Games</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -13,21 +13,19 @@
         html, body {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: auto;
-            height: 100vh;
             background: #000;
-            color: #fff;
-            flex-direction: column;
+            color: #00ff00;
         }
 
         body {
             font-family: 'Press Start 2P', cursive;
-            background-color: #000;
-            color: #00ff00;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
             padding-top: 50px;
+            overflow-x: hidden;
         }
 
         .top-right {
@@ -35,6 +33,15 @@
             top: 10px;
             right: 10px;
         }
+
+@media (max-width: 768px) {
+    .top-right {
+        position: static;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
 
         .hidden {
             display: none;
@@ -61,7 +68,7 @@
         .game-item a {
             color: #800080;
             text-decoration: none;
-            font-size: 24px;
+           font-size: 1.5rem;
         }
 
         #auth, #game-section {
@@ -111,6 +118,39 @@
         button:hover {
             background: #00cc00;
         }
+
+        @media (max-width: 768px) {
+    body {
+        padding-top: 20px;
+    }
+
+    .game-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .game-item img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    #auth, #game-section {
+        width: 95%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    h1, h2 {
+        font-size: 20px;
+    }
+}
+
+
     </style>
 </head>
 <body>

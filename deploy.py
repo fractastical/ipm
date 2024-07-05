@@ -414,7 +414,7 @@ async def generate_game_content(deploy_dirs, ratings, log_file):
             <!--
             <div class="game-item">
                 <img src="{snapshot_path}" alt="{dir_name}">
-                <a href="{url}">{dir_name} (Rating: {rating + 2})</a>
+                <a href="{url}">{dir_name}</a>
             </div>
             -->
             '''
