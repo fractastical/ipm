@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Infinite Games</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -13,21 +13,19 @@
         html, body {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: auto;
-            height: 100vh;
             background: #000;
-            color: #fff;
-            flex-direction: column;
+            color: #00ff00;
         }
 
         body {
             font-family: 'Press Start 2P', cursive;
-            background-color: #000;
-            color: #00ff00;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
             padding-top: 50px;
+            overflow-x: hidden;
         }
 
         .top-right {
@@ -35,6 +33,15 @@
             top: 10px;
             right: 10px;
         }
+
+@media (max-width: 768px) {
+    .top-right {
+        position: static;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
 
         .hidden {
             display: none;
@@ -61,7 +68,7 @@
         .game-item a {
             color: #800080;
             text-decoration: none;
-            font-size: 24px;
+           font-size: 1.5rem;
         }
 
         #auth, #game-section {
@@ -111,6 +118,39 @@
         button:hover {
             background: #00cc00;
         }
+
+        @media (max-width: 768px) {
+    body {
+        padding-top: 20px;
+    }
+
+    .game-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .game-item img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    #auth, #game-section {
+        width: 95%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    h1, h2 {
+        font-size: 20px;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -157,56 +197,56 @@
             <!--
             <div class="game-item">
                 <img src="images/iimprove.png" alt="iimprove">
-                <a href="https://fractastical.github.io/iimprove/">iimprove (Rating: 8)</a>
+                <a href="https://fractastical.github.io/iimprove/">iimprove</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/infinitemissiles.png" alt="infinitemissiles">
-                <a href="https://fractastical.github.io/infinitemissiles/">infinitemissiles (Rating: 8)</a>
+                <a href="https://fractastical.github.io/infinitemissiles/">infinitemissiles</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/trades.png" alt="trades">
-                <a href="https://fractastical.github.io/trades/">trades (Rating: 8)</a>
+                <a href="https://fractastical.github.io/trades/">trades</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/makeme8bit.png" alt="makeme8bit">
-                <a href="https://fractastical.github.io/makeme8bit/">makeme8bit (Rating: 8)</a>
+                <a href="https://fractastical.github.io/makeme8bit/">makeme8bit</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/trades.png" alt="trades">
-                <a href="https://fractastical.github.io/trades/">trades (Rating: 8)</a>
+                <a href="https://fractastical.github.io/trades/">trades</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/8bitwaves.png" alt="8bitwaves">
-                <a href="https://fractastical.github.io/8bitwaves/">8bitwaves (Rating: 8)</a>
+                <a href="https://fractastical.github.io/8bitwaves/">8bitwaves</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/deeperdating.png" alt="deeperdating">
-                <a href="https://fractastical.github.io/deeperdating/">deeperdating (Rating: 8)</a>
+                <a href="https://fractastical.github.io/deeperdating/">deeperdating</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/infinitewumpus.png" alt="infinitewumpus">
-                <a href="https://fractastical.github.io/infinitewumpus/">infinitewumpus (Rating: 8)</a>
+                <a href="https://fractastical.github.io/infinitewumpus/">infinitewumpus</a>
             </div>
             -->
             
@@ -248,14 +288,14 @@
             <!--
             <div class="game-item">
                 <img src="images/infinitesnake.png" alt="infinitesnake">
-                <a href="https://fractastical.github.io/infinitesnake/">infinitesnake (Rating: 2)</a>
+                <a href="https://fractastical.github.io/infinitesnake/">infinitesnake</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/infinitesnake3d.png" alt="infinitesnake3d">
-                <a href="https://fractastical.github.io/infinitesnake3d/">infinitesnake3d (Rating: 2)</a>
+                <a href="https://fractastical.github.io/infinitesnake3d/">infinitesnake3d</a>
             </div>
             -->
             
@@ -267,21 +307,21 @@
             <!--
             <div class="game-item">
                 <img src="images/infinitepyramidpong.png" alt="infinitepyramidpong">
-                <a href="https://fractastical.github.io/infinitepyramidpong/">infinitepyramidpong (Rating: 2)</a>
+                <a href="https://fractastical.github.io/infinitepyramidpong/">infinitepyramidpong</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/infinitehex.png" alt="infinitehex">
-                <a href="https://fractastical.github.io/infinitehex/">infinitehex (Rating: 2)</a>
+                <a href="https://fractastical.github.io/infinitehex/">infinitehex</a>
             </div>
             -->
             
             <!--
             <div class="game-item">
                 <img src="images/idl.png" alt="idl">
-                <a href="https://fractastical.github.io/idl/">idl (Rating: 2)</a>
+                <a href="https://fractastical.github.io/idl/">idl</a>
             </div>
             -->
             
